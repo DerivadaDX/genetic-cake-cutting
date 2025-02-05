@@ -38,6 +38,12 @@ console.log('\nHow each player values each piece:');
 evaluation.playerEvaluations.forEach((playerEvals, playerIndex) => {
   console.log(`\nPlayer ${playerIndex + 1}:`);
   playerEvals.forEach((value, pieceIndex) => {
-    console.log(`  Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value`);
+    const isAssigned = evaluation.assignments[playerIndex] === pieceIndex;
+    console.log(`  Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value ${isAssigned ? '(ASSIGNED)' : ''}`);
   });
+});
+
+console.log('\nFinal assignments:');
+evaluation.assignments.forEach((pieceIndex, playerIndex) => {
+  console.log(`Player ${playerIndex + 1} gets piece ${pieceIndex + 1} (atoms ${evaluation.pieces[pieceIndex][0]} to ${evaluation.pieces[pieceIndex][1]})`);
 });

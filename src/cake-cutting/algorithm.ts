@@ -58,17 +58,51 @@ export class CakeCuttingGeneticAlgorithm {
 
   public evaluateSolution(cuts: number[]): {
     pieces: [number, number][],
-    playerEvaluations: number[][]
+    playerEvaluations: number[][],
+    assignments: number[]
   } {
     const pieces = this.getPiecesValues(cuts);
     const playerEvaluations = this.players.map((_, playerIndex) =>
       pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex))
     );
 
+    // Assign pieces to maximize value for each player
+    const assignments = this.assignPiecesToPlayers(playerEvaluations);
+
     return {
       pieces,
-      playerEvaluations
+      playerEvaluations,
+      assignments
     };
+  }
+
+  private assignPiecesToPlayers(playerEvaluations: number[][]): number[] {
+    // Initialize assignments with -1 (unassigned)
+    const assignments = new Array(this.players.length).fill(-1);
+    const assignedPieces = new Set<number>();
+
+    // For each player
+    for (let player = 0; player < this.players.length; player++) {
+      let bestPiece = -1;
+      let bestValue = -1;
+
+      // Find the best unassigned piece for this player
+      for (let piece = 0; piece < this.players.length; piece++) {
+        if (!assignedPieces.has(piece)) {
+          const value = playerEvaluations[player][piece];
+          if (value > bestValue) {
+            bestValue = value;
+            bestPiece = piece;
+          }
+        }
+      }
+
+      // Assign the best piece to this player
+      assignments[player] = bestPiece;
+      assignedPieces.add(bestPiece);
+    }
+
+    return assignments;
   }
 
   private initializePopulation(): void {

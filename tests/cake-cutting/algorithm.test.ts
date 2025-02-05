@@ -116,6 +116,90 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const evaluation2 = algorithm.evaluateSolution([7, 7]);
       expect(evaluation2.pieces).toEqual([[0, 7], [7, 7], [7, 7]]);
     });
+
+    // Agregar dentro del bloque 'describe('Solution Evaluation', () => { ... })'
+
+    test('should correctly assign pieces in the example case', () => {
+      const cuts = [2, 4];
+      const evaluation = algorithm.evaluateSolution(cuts);
+
+      // Verificar asignaciones esperadas: [2, 0, 1]
+      expect(evaluation.assignments).toEqual([2, 0, 1]);
+    });
+
+    test('assignments should be unique and valid indices', () => {
+      const cuts = [2, 4];
+      const evaluation = algorithm.evaluateSolution(cuts);
+
+      const assignments = evaluation.assignments;
+      const uniqueAssignments = new Set(assignments);
+
+      // Todas las asignaciones deben ser únicas
+      expect(uniqueAssignments.size).toBe(assignments.length);
+
+      // Cada asignación debe ser un índice válido de pieza
+      assignments.forEach(pieceIndex => {
+        expect(pieceIndex).toBeGreaterThanOrEqual(0);
+        expect(pieceIndex).toBeLessThan(numberOfPlayers);
+      });
+    });
+
+    test('should handle tied preferences correctly', () => {
+      // Configurar un caso donde dos jugadores prefieren la misma pieza
+      const problem: CakeCuttingProblem = {
+        playerValuations: [
+          new PlayerValuations([0.5, 0.5, 0, 0]), // Prefiere pieza 0
+          new PlayerValuations([0.6, 0.4, 0, 0]), // Prefiere pieza 0
+          new PlayerValuations([0, 0, 0.3, 0.7])  // Prefiere pieza 3
+        ]
+      };
+      const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
+
+      const cuts = [2, 3];
+      const evaluation = algorithm.evaluateSolution(cuts);
+
+      // Jugador 0 obtiene pieza 0, Jugador 1 obtiene siguiente disponible
+      expect(evaluation.assignments[0]).toBe(0);
+      expect(evaluation.assignments[1]).toBe(1); // Asignación por orden
+      expect(evaluation.assignments[2]).toBe(2); // Única pieza restante
+    });
+
+    // Agregar dentro del bloque 'describe('Solution Quality', () => { ... })'
+
+    test('perfect division should assign optimal pieces', () => {
+      const problem: CakeCuttingProblem = {
+        playerValuations: [
+          new PlayerValuations([1, 0, 0]),
+          new PlayerValuations([0, 1, 0]),
+          new PlayerValuations([0, 0, 1])
+        ]
+      };
+
+      const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
+      const solution = algorithm.evolve(100);
+      const evaluation = algorithm.evaluateSolution(solution.chromosome);
+
+      // Cada jugador debe obtener su pieza preferida
+      expect(evaluation.assignments).toEqual([0, 1, 2]);
+    });
+
+    test('should assign all pieces even with zero-value sections', () => {
+      const problem: CakeCuttingProblem = {
+        playerValuations: [
+          new PlayerValuations([1, 0, 0]),
+          new PlayerValuations([1, 0, 0]),
+          new PlayerValuations([1, 0, 0])
+        ]
+      };
+
+      const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
+      const cuts = [1, 2];
+      const evaluation = algorithm.evaluateSolution(cuts);
+
+      // Verificar que todas las piezas están asignadas
+      expect(new Set(evaluation.assignments).size).toBe(3);
+      expect(evaluation.assignments).toEqual([0, 1, 2]); // Asignación por orden
+    });
   });
 
   describe('Solution Quality', () => {
