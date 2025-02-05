@@ -1,4 +1,4 @@
-import { CakeCuttingGeneticAlgorithm } from './cake-cutting/cake-cutting-genetic-algorithm';
+import { CakeCuttingGeneticAlgorithm } from './cake-cutting/algorithm';
 import { PlayerValuations } from './cake-cutting/player-valuations';
 import { CakeCuttingProblem, GeneticAlgorithmConfig } from './cake-cutting/types';
 
