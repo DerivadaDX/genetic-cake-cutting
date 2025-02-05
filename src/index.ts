@@ -14,9 +14,8 @@ const players = [
 
 // Create genetic algorithm instance
 const ga = new CakeCuttingGeneticAlgorithm(
-  numberOfPlayers,
-  numberOfAtoms,
   players,
+  numberOfAtoms,
   100,  // population size
   0.1   // mutation rate
 );

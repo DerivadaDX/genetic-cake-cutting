@@ -10,22 +10,17 @@ export default class CakeCuttingGeneticAlgorithm {
   private population: Individual[];
 
   constructor(
-    numberOfPlayers: number,
-    numberOfAtoms: number,
     players: Player[],
+    numberOfAtoms: number,
     populationSize: number = 100,
     mutationRate: number = 0.1
   ) {
-    if (numberOfPlayers !== players.length) {
-      throw new Error('Number of players must match length of players array');
+    if (players.length < 2) {
+      throw new Error('Must have at least 2 players');
     }
 
     if (players.some(player => player.numberOfValuations !== numberOfAtoms)) {
       throw new Error('All players must have valuations matching the number of atoms');
-    }
-
-    if (numberOfPlayers < 2) {
-      throw new Error('Must have at least 2 players');
     }
 
     if (numberOfAtoms < 1) {
@@ -33,7 +28,7 @@ export default class CakeCuttingGeneticAlgorithm {
     }
 
     this.populationSize = populationSize;
-    this.numberOfCuts = numberOfPlayers - 1;
+    this.numberOfCuts = players.length - 1;
     this.mutationRate = mutationRate;
     this.numberOfAtoms = numberOfAtoms;
     this.players = players;

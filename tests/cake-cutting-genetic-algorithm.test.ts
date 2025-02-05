@@ -15,9 +15,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
   beforeEach(() => {
     algorithm = new CakeCuttingGeneticAlgorithm(
-      numberOfPlayers,
-      numberOfAtoms,
       players,
+      numberOfAtoms,
       100, // populationSize
       0.1  // mutationRate
     );
@@ -28,16 +27,15 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(algorithm).toBeInstanceOf(CakeCuttingGeneticAlgorithm);
     });
 
-    test('should throw error if number of players does not match players array', () => {
+    test('should throw error if less than 2 players are provided', () => {
       expect(() => {
         new CakeCuttingGeneticAlgorithm(
-          4, // different number of players
+          [new Player([0.5, 0.5])], // only one player
           numberOfAtoms,
-          players,
           100,
           0.1
         );
-      }).toThrow();
+      }).toThrow('Must have at least 2 players');
     });
 
     test('should throw error if valuations length does not match numberOfAtoms', () => {
@@ -49,9 +47,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
       expect(() => {
         new CakeCuttingGeneticAlgorithm(
-          3,
-          numberOfAtoms,
           invalidPlayers,
+          numberOfAtoms,
           100,
           0.1
         );
@@ -102,9 +99,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(evaluation.playerEvaluations[0][2]).toBe(0.5); // Third piece
 
       // Verify player 2's evaluations (0.4, 0.3, 0.3)
-      expect(evaluation.playerEvaluations[1][0]).toBe(0.4); // First piece
-      expect(evaluation.playerEvaluations[1][1]).toBe(0.3); // Second piece
-      expect(evaluation.playerEvaluations[1][2]).toBe(0.3); // Third piece
+      expect(evaluation.playerEvaluations[1][0]).toBe(0.4); // First piece (0 + 0.4)
+      expect(evaluation.playerEvaluations[1][1]).toBe(0.3); // Second piece (0.3 + 0)
+      expect(evaluation.playerEvaluations[1][2]).toBe(0.3); // Third piece (0 + 0.3 + 0)
 
       // Verify player 3's evaluations (0, 0, 1.0)
       expect(evaluation.playerEvaluations[2][0]).toBe(0);   // First piece
@@ -141,9 +138,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       ];
 
       const simpleAlgorithm = new CakeCuttingGeneticAlgorithm(
-        3,
-        3,
         simplePlayers,
+        3,
         100,
         0.1
       );
@@ -162,9 +158,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       ];
 
       const smallAlgorithm = new CakeCuttingGeneticAlgorithm(
-        2,
-        2,
         twoPlayers,
+        2,
         100,
         0.1
       );
@@ -180,9 +175,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       ];
 
       const singleAtomAlgorithm = new CakeCuttingGeneticAlgorithm(
-        2,
-        1,
         singleAtomPlayers,
+        1,
         100,
         0.1
       );
