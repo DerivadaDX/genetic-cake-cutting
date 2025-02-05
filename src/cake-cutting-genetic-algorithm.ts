@@ -15,7 +15,6 @@ export default class CakeCuttingGeneticAlgorithm {
     populationSize: number = 100,
     mutationRate: number = 0.1
   ) {
-    // Validate inputs
     if (numberOfPlayers !== players.length) {
       throw new Error('Number of players must match length of players array');
     }
@@ -33,12 +32,53 @@ export default class CakeCuttingGeneticAlgorithm {
     }
 
     this.populationSize = populationSize;
-    this.numberOfCuts = numberOfPlayers - 1; // N players need N-1 cuts
+    this.numberOfCuts = numberOfPlayers - 1;
     this.mutationRate = mutationRate;
     this.numberOfAtoms = numberOfAtoms;
     this.players = players;
     this.population = [];
     this.initializePopulation();
+  }
+
+  public evolve(generations: number): Individual {
+    for (let gen = 0; gen < generations; gen++) {
+      const newPopulation: Individual[] = [];
+
+      const bestIndividual = [...this.population].sort((a, b) => b.fitness - a.fitness)[0];
+      newPopulation.push(bestIndividual);
+
+      while (newPopulation.length < this.populationSize) {
+        const parent1 = this.selection();
+        const parent2 = this.selection();
+
+        let childChromosome = this.crossover(parent1.chromosome, parent2.chromosome);
+        childChromosome = this.mutate(childChromosome);
+
+        newPopulation.push({
+          chromosome: childChromosome,
+          fitness: this.evaluateFitness(childChromosome)
+        });
+      }
+
+      this.population = newPopulation;
+    }
+
+    return [...this.population].sort((a, b) => b.fitness - a.fitness)[0];
+  }
+
+  public evaluateSolution(cuts: number[]): {
+    pieces: [number, number][],
+    playerEvaluations: number[][]
+  } {
+    const pieces = this.getPiecesValues(cuts);
+    const playerEvaluations = this.players.map((_, playerIndex) =>
+      pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex))
+    );
+
+    return {
+      pieces,
+      playerEvaluations
+    };
   }
 
   private initializePopulation(): void {
@@ -111,6 +151,20 @@ export default class CakeCuttingGeneticAlgorithm {
     return value;
   }
 
+  private selection(): Individual {
+    const tournamentSize = 3;
+    let best: Individual = this.population[Math.floor(Math.random() * this.populationSize)];
+
+    for (let i = 0; i < tournamentSize - 1; i++) {
+      const contestant = this.population[Math.floor(Math.random() * this.populationSize)];
+      if (contestant.fitness > best.fitness) {
+        best = contestant;
+      }
+    }
+
+    return best;
+  }
+
   private crossover(parent1: number[], parent2: number[]): number[] {
     const crossoverPoint = Math.floor(Math.random() * this.numberOfCuts);
     const child = [...parent1.slice(0, crossoverPoint), ...parent2.slice(crossoverPoint)];
@@ -125,64 +179,5 @@ export default class CakeCuttingGeneticAlgorithm {
       }
       return gene;
     }).sort((a, b) => a - b);
-  }
-
-  private selection(): Individual {
-    // Tournament selection
-    const tournamentSize = 3;
-    let best: Individual = this.population[Math.floor(Math.random() * this.populationSize)];
-
-    for (let i = 0; i < tournamentSize - 1; i++) {
-      const contestant = this.population[Math.floor(Math.random() * this.populationSize)];
-      if (contestant.fitness > best.fitness) {
-        best = contestant;
-      }
-    }
-
-    return best;
-  }
-
-  public evolve(generations: number): Individual {
-    for (let gen = 0; gen < generations; gen++) {
-      const newPopulation: Individual[] = [];
-
-      // Elitism: keep the best individual
-      const bestIndividual = [...this.population].sort((a, b) => b.fitness - a.fitness)[0];
-      newPopulation.push(bestIndividual);
-
-      // Generate new population
-      while (newPopulation.length < this.populationSize) {
-        const parent1 = this.selection();
-        const parent2 = this.selection();
-
-        let childChromosome = this.crossover(parent1.chromosome, parent2.chromosome);
-        childChromosome = this.mutate(childChromosome);
-
-        newPopulation.push({
-          chromosome: childChromosome,
-          fitness: this.evaluateFitness(childChromosome)
-        });
-      }
-
-      this.population = newPopulation;
-    }
-
-    // Return best solution found
-    return [...this.population].sort((a, b) => b.fitness - a.fitness)[0];
-  }
-
-  public evaluateSolution(cuts: number[]): {
-    pieces: [number, number][],
-    playerEvaluations: number[][]
-  } {
-    const pieces = this.getPiecesValues(cuts);
-    const playerEvaluations = this.players.map((_, playerIndex) =>
-      pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex))
-    );
-
-    return {
-      pieces,
-      playerEvaluations
-    };
   }
 }
