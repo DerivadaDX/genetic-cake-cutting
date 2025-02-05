@@ -88,14 +88,38 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
   });
 
-  describe('Piece Evaluation', () => {
-    test('should correctly evaluate piece values for players', () => {
-      // Create a known cut position and verify the piece values
-      const testPiece: [number, number] = [0, 2]; // First two atoms
-      const value = algorithm['evaluatePieceForPlayer'](testPiece, 0);
+  describe('Solution Evaluation', () => {
+    test('should correctly evaluate a given cut solution', () => {
+      const cuts = [2, 4]; // Creates three pieces: [0,2], [2,4], [4,7]
+      const evaluation = algorithm.evaluateSolution(cuts);
 
-      // Player 1's valuation for first two atoms should be 0.2
-      expect(value).toBe(0.2);
+      // Verify pieces are correct
+      expect(evaluation.pieces).toEqual([[0, 2], [2, 4], [4, 7]]);
+
+      // Verify player 1's evaluations (0.2, 0.3, 0.5)
+      expect(evaluation.playerEvaluations[0][0]).toBe(0.2); // First piece
+      expect(evaluation.playerEvaluations[0][1]).toBe(0.3); // Second piece
+      expect(evaluation.playerEvaluations[0][2]).toBe(0.5); // Third piece
+
+      // Verify player 2's evaluations (0.7, 0, 0.3)
+      expect(evaluation.playerEvaluations[1][0]).toBe(0.7); // First piece
+      expect(evaluation.playerEvaluations[1][1]).toBe(0);   // Second piece
+      expect(evaluation.playerEvaluations[1][2]).toBe(0.3); // Third piece
+
+      // Verify player 3's evaluations (0, 0, 1.0)
+      expect(evaluation.playerEvaluations[2][0]).toBe(0);   // First piece
+      expect(evaluation.playerEvaluations[2][1]).toBe(0);   // Second piece
+      expect(evaluation.playerEvaluations[2][2]).toBe(1.0); // Third piece
+    });
+
+    test('should evaluate edge case solutions', () => {
+      // Test with all cuts at beginning
+      const evaluation1 = algorithm.evaluateSolution([0, 0]);
+      expect(evaluation1.pieces).toEqual([[0, 0], [0, 0], [0, 7]]);
+
+      // Test with all cuts at end
+      const evaluation2 = algorithm.evaluateSolution([7, 7]);
+      expect(evaluation2.pieces).toEqual([[0, 7], [7, 7], [7, 7]]);
     });
   });
 

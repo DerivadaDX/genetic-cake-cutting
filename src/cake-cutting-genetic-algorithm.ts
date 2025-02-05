@@ -20,7 +20,7 @@ export default class CakeCuttingGeneticAlgorithm {
       throw new Error('Number of players must match length of players array');
     }
 
-    if (players.some(player => player.valuations.length !== numberOfAtoms)) {
+    if (players.some(player => player.numberOfValuations !== numberOfAtoms)) {
       throw new Error('All players must have valuations matching the number of atoms');
     }
 
@@ -106,7 +106,7 @@ export default class CakeCuttingGeneticAlgorithm {
   private evaluatePieceForPlayer(piece: [number, number], playerIndex: number): number {
     let value = 0;
     for (let i = piece[0]; i < piece[1]; i++) {
-      value += this.players[playerIndex].valuations[i];
+      value += this.players[playerIndex].getValuationAt(i);
     }
     return value;
   }
@@ -169,5 +169,20 @@ export default class CakeCuttingGeneticAlgorithm {
 
     // Return best solution found
     return [...this.population].sort((a, b) => b.fitness - a.fitness)[0];
+  }
+
+  public evaluateSolution(cuts: number[]): {
+    pieces: [number, number][],
+    playerEvaluations: number[][]
+  } {
+    const pieces = this.getPiecesValues(cuts);
+    const playerEvaluations = this.players.map((_, playerIndex) =>
+      pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex))
+    );
+
+    return {
+      pieces,
+      playerEvaluations
+    };
   }
 }
