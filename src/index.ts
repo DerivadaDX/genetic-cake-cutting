@@ -1,16 +1,42 @@
 import CakeCuttingGeneticAlgorithm from './cake-cutting-genetic-algorithm';
+import Player from './player';
 
-// Example usage:
+// Setup problem parameters
 const numberOfPlayers = 3;
 const numberOfAtoms = 7;
 
-// Example players with their valuations for each atom
-const players: Player[] = [
-  { valuations: [0.2, 0, 0, 0.3, 0.5, 0, 0] },    // Player 1
-  { valuations: [0, 0.4, 0.3, 0, 0, 0.3, 0] },    // Player 2
-  { valuations: [0, 0, 0, 0, 0, 0.4, 0.6] }       // Player 3
+// Create players with their valuations
+const players = [
+  new Player([0.2, 0, 0, 0.3, 0.5, 0, 0]),    // Player 1 values atoms 0, 3 and 4
+  new Player([0, 0.4, 0.3, 0, 0, 0.3, 0]),    // Player 2 values atoms 1, 2 and 5
+  new Player([0, 0, 0, 0, 0, 0.4, 0.6])       // Player 3 values atoms 5 and 6
 ];
 
-const ga = new CakeCuttingGeneticAlgorithm(numberOfPlayers, numberOfAtoms, players);
+// Create genetic algorithm instance
+const ga = new CakeCuttingGeneticAlgorithm(
+  numberOfPlayers,
+  numberOfAtoms,
+  players,
+  100,  // population size
+  0.1   // mutation rate
+);
+
+// Run evolution
 const solution = ga.evolve(100);
-console.log("Best solution found:", solution);
+console.log('Best solution found:', solution);
+
+// Evaluate the solution to see detailed piece values
+const evaluation = ga.evaluateSolution(solution.chromosome);
+
+console.log('\nPieces created by the cuts:');
+evaluation.pieces.forEach((piece, index) => {
+  console.log(`Piece ${index + 1}: atoms ${piece[0]} to ${piece[1]}`);
+});
+
+console.log('\nHow each player values each piece:');
+evaluation.playerEvaluations.forEach((playerEvals, playerIndex) => {
+  console.log(`\nPlayer ${playerIndex + 1}:`);
+  playerEvals.forEach((value, pieceIndex) => {
+    console.log(`  Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value`);
+  });
+});
