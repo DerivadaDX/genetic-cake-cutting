@@ -1,20 +1,16 @@
 import { CakeCuttingGeneticAlgorithm } from './cake-cutting/cake-cutting-genetic-algorithm';
-import { CakeCuttingProblem } from './cake-cutting/cake-cutting-problem';
-import { GeneticAlgorithmConfig } from './cake-cutting/genetic-algorithm-config';
-import { Player } from './cake-cutting/player';
+import { PlayerValuations } from './cake-cutting/player-valuations';
+import { CakeCuttingProblem, GeneticAlgorithmConfig } from './cake-cutting/types';
 
 // Create players with their valuations
-const players = [
-  new Player([0.2, 0, 0, 0.3, 0.5, 0, 0]),    // Player 1 values atoms 0, 3 and 4
-  new Player([0, 0.4, 0.3, 0, 0, 0.3, 0]),    // Player 2 values atoms 1, 2 and 5
-  new Player([0, 0, 0, 0, 0, 0.4, 0.6])       // Player 3 values atoms 5 and 6
+const playerValuations = [
+  new PlayerValuations([0.2, 0, 0, 0.3, 0.5, 0, 0]),    // Player 1 values atoms 0, 3 and 4
+  new PlayerValuations([0, 0.4, 0.3, 0, 0, 0.3, 0]),    // Player 2 values atoms 1, 2 and 5
+  new PlayerValuations([0, 0, 0, 0, 0, 0.4, 0.6])       // Player 3 values atoms 5 and 6
 ];
 
 // Define the problem
-const problem: CakeCuttingProblem = {
-  numberOfAtoms: 7,
-  players
-};
+const problem: CakeCuttingProblem = { playerValuations };
 
 // Define genetic algorithm configuration
 const algorithmConfig: GeneticAlgorithmConfig = {

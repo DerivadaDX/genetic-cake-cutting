@@ -1,49 +1,48 @@
-import { Player } from '../../src/cake-cutting/player';
-
+import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
 
 describe('Player', () => {
   describe('Constructor Validation', () => {
     test('should create player with valid valuations', () => {
       const validValuations = [0.2, 0.3, 0.5];
-      const player = new Player(validValuations);
+      const player = new PlayerValuations(validValuations);
       expect(player.valuations).toEqual(validValuations);
     });
 
     test('should throw error if valuations do not sum to 1', () => {
       const invalidValuations = [0.2, 0.3, 0.3]; // sums to 0.8
-      expect(() => new Player(invalidValuations)).toThrow('Valuations must sum exactly to 1');
+      expect(() => new PlayerValuations(invalidValuations)).toThrow('Valuations must sum exactly to 1');
     });
 
     test('should throw error if any valuation is negative', () => {
       const invalidValuations = [0.5, -0.1, 0.6];
-      expect(() => new Player(invalidValuations)).toThrow('All valuations must be between 0 and 1');
+      expect(() => new PlayerValuations(invalidValuations)).toThrow('All valuations must be between 0 and 1');
     });
 
     test('should throw error if any valuation is greater than 1', () => {
       const invalidValuations = [0.5, 1.1, 0.5];
-      expect(() => new Player(invalidValuations)).toThrow('All valuations must be between 0 and 1');
+      expect(() => new PlayerValuations(invalidValuations)).toThrow('All valuations must be between 0 and 1');
     });
 
     test('should handle edge case of single valuation of 1', () => {
       const validValuations = [1];
-      const player = new Player(validValuations);
+      const player = new PlayerValuations(validValuations);
       expect(player.valuations).toEqual(validValuations);
     });
 
     test('should handle floating point precision correctly', () => {
       // 0.1 + 0.2 + 0.7 should equal 1 despite floating point arithmetic
       const validValuations = [0.1, 0.2, 0.7];
-      const player = new Player(validValuations);
+      const player = new PlayerValuations(validValuations);
       expect(player.valuations).toEqual(validValuations);
     });
   });
 
   describe('Getters and Methods', () => {
     const validValuations = [0.2, 0.3, 0.5];
-    let player: Player;
+    let player: PlayerValuations;
 
     beforeEach(() => {
-      player = new Player(validValuations);
+      player = new PlayerValuations(validValuations);
     });
 
     test('valuations getter should return a copy of valuations', () => {

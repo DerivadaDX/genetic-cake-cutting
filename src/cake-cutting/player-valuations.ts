@@ -1,4 +1,4 @@
-export class Player {
+export class PlayerValuations {
   private readonly _valuations: number[];
 
   constructor(valuations: number[]) {
