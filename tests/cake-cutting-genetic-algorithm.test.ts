@@ -101,9 +101,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(evaluation.playerEvaluations[0][1]).toBe(0.3); // Second piece
       expect(evaluation.playerEvaluations[0][2]).toBe(0.5); // Third piece
 
-      // Verify player 2's evaluations (0.7, 0, 0.3)
-      expect(evaluation.playerEvaluations[1][0]).toBe(0.7); // First piece
-      expect(evaluation.playerEvaluations[1][1]).toBe(0);   // Second piece
+      // Verify player 2's evaluations (0.4, 0.3, 0.3)
+      expect(evaluation.playerEvaluations[1][0]).toBe(0.4); // First piece
+      expect(evaluation.playerEvaluations[1][1]).toBe(0.3); // Second piece
       expect(evaluation.playerEvaluations[1][2]).toBe(0.3); // Third piece
 
       // Verify player 3's evaluations (0, 0, 1.0)
