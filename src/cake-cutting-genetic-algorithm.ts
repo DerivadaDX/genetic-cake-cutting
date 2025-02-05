@@ -1,3 +1,4 @@
+import Individual from './individual';
 import Player from './player';
 
 export default class CakeCuttingGeneticAlgorithm {
@@ -54,10 +55,8 @@ export default class CakeCuttingGeneticAlgorithm {
         let childChromosome = this.crossover(parent1.chromosome, parent2.chromosome);
         childChromosome = this.mutate(childChromosome);
 
-        newPopulation.push({
-          chromosome: childChromosome,
-          fitness: this.evaluateFitness(childChromosome)
-        });
+        const childFitness = this.evaluateFitness(childChromosome);
+        newPopulation.push(new Individual(childChromosome, childFitness, this.numberOfAtoms));
       }
 
       this.population = newPopulation;
@@ -84,10 +83,8 @@ export default class CakeCuttingGeneticAlgorithm {
   private initializePopulation(): void {
     for (let i = 0; i < this.populationSize; i++) {
       const chromosome = this.generateRandomChromosome();
-      this.population.push({
-        chromosome,
-        fitness: this.evaluateFitness(chromosome)
-      });
+      const fitness = this.evaluateFitness(chromosome);
+      this.population.push(new Individual(chromosome, fitness, this.numberOfAtoms));
     }
   }
 
