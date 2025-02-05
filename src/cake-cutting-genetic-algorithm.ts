@@ -1,4 +1,4 @@
-class CakeCuttingGeneticAlgorithm {
+export default class CakeCuttingGeneticAlgorithm {
   private readonly populationSize: number;
   private readonly numberOfCuts: number;
   private readonly mutationRate: number;
@@ -13,6 +13,23 @@ class CakeCuttingGeneticAlgorithm {
     populationSize: number = 100,
     mutationRate: number = 0.1
   ) {
+    // Validate inputs
+    if (numberOfPlayers !== players.length) {
+      throw new Error('Number of players must match length of players array');
+    }
+
+    if (players.some(player => player.valuations.length !== numberOfAtoms)) {
+      throw new Error('All players must have valuations matching the number of atoms');
+    }
+
+    if (numberOfPlayers < 2) {
+      throw new Error('Must have at least 2 players');
+    }
+
+    if (numberOfAtoms < 1) {
+      throw new Error('Must have at least 1 atom');
+    }
+
     this.populationSize = populationSize;
     this.numberOfCuts = numberOfPlayers - 1; // N players need N-1 cuts
     this.mutationRate = mutationRate;

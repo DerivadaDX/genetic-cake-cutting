@@ -1,3 +1,5 @@
+import CakeCuttingGeneticAlgorithm from './cake-cutting-genetic-algorithm';
+
 // Example usage:
 const numberOfPlayers = 3;
 const numberOfAtoms = 7;
