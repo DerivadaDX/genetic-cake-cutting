@@ -1,13 +1,14 @@
 import CakeCuttingGeneticAlgorithm from '../src/cake-cutting-genetic-algorithm';
+import Player from '../src/player';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup
   const numberOfPlayers = 3;
   const numberOfAtoms = 7;
   const players = [
-    { valuations: [0.2, 0, 0, 0.3, 0.5, 0, 0] },    // Player 1
-    { valuations: [0, 0.4, 0.3, 0, 0, 0.3, 0] },    // Player 2
-    { valuations: [0, 0, 0, 0, 0, 0.4, 0.6] }       // Player 3
+    new Player([0.2, 0, 0, 0.3, 0.5, 0, 0]),    // Player 1
+    new Player([0, 0.4, 0.3, 0, 0, 0.3, 0]),    // Player 2
+    new Player([0, 0, 0, 0, 0, 0.4, 0.6])       // Player 3
   ];
 
   let algorithm: CakeCuttingGeneticAlgorithm;
@@ -41,9 +42,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should throw error if valuations length does not match numberOfAtoms', () => {
       const invalidPlayers = [
-        { valuations: [0.2, 0] }, // wrong length
-        { valuations: [0, 0.4, 0.3, 0] },
-        { valuations: [0, 0, 0] }
+        new Player([0.5, 0.5]), // wrong length
+        new Player([0.25, 0.25, 0.25, 0.25]),
+        new Player([0.3, 0.3, 0.4])
       ];
 
       expect(() => {
@@ -110,9 +111,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     test('should handle simple case with perfect division', () => {
       // Create a simple case where perfect division is possible
       const simplePlayers = [
-        { valuations: [1, 0, 0] },
-        { valuations: [0, 1, 0] },
-        { valuations: [0, 0, 1] }
+        new Player([1, 0, 0]),
+        new Player([0, 1, 0]),
+        new Player([0, 0, 1])
       ];
 
       const simpleAlgorithm = new CakeCuttingGeneticAlgorithm(
@@ -132,8 +133,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   describe('Edge Cases', () => {
     test('should handle minimum number of players (2)', () => {
       const twoPlayers = [
-        { valuations: [1, 0] },
-        { valuations: [0, 1] }
+        new Player([1, 0]),
+        new Player([0, 1])
       ];
 
       const smallAlgorithm = new CakeCuttingGeneticAlgorithm(
@@ -150,8 +151,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should handle single atom valuations', () => {
       const singleAtomPlayers = [
-        { valuations: [1] },
-        { valuations: [0] }
+        new Player([1]),
+        new Player([1])
       ];
 
       const singleAtomAlgorithm = new CakeCuttingGeneticAlgorithm(

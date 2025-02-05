@@ -1,3 +1,5 @@
+import Player from './player';
+
 export default class CakeCuttingGeneticAlgorithm {
   private readonly populationSize: number;
   private readonly numberOfCuts: number;
