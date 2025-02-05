@@ -1,25 +1,28 @@
 import CakeCuttingGeneticAlgorithm from '../src/cake-cutting-genetic-algorithm';
+import { CakeCuttingProblem } from '../src/cake-cutting-problem';
+import { GeneticAlgorithmConfig } from '../src/genetic-algorithm-config';
 import Player from '../src/player';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup
-  const numberOfPlayers = 3;
-  const numberOfAtoms = 7;
   const players = [
     new Player([0.2, 0, 0, 0.3, 0.5, 0, 0]),    // Player 1
     new Player([0, 0.4, 0.3, 0, 0, 0.3, 0]),    // Player 2
     new Player([0, 0, 0, 0, 0, 0.4, 0.6])       // Player 3
   ];
+  const numberOfAtoms = players[0].valuations.length;
+  const numberOfPlayers = players.length;
+
+  const problem: CakeCuttingProblem = { players, numberOfAtoms };
+  const algorithmConfig: GeneticAlgorithmConfig = {
+    populationSize: 100,
+    mutationRate: 0.1
+  };
 
   let algorithm: CakeCuttingGeneticAlgorithm;
 
   beforeEach(() => {
-    algorithm = new CakeCuttingGeneticAlgorithm(
-      players,
-      numberOfAtoms,
-      100, // populationSize
-      0.1  // mutationRate
-    );
+    algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
   });
 
   describe('Constructor', () => {
@@ -28,30 +31,28 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should throw error if less than 2 players are provided', () => {
+      const invalidProblem: CakeCuttingProblem = {
+        players: [new Player([0.5, 0, 0, 0, 0, 0.5, 0])],  // only one player
+        numberOfAtoms
+      };
+
       expect(() => {
-        new CakeCuttingGeneticAlgorithm(
-          [new Player([0.5, 0.5])], // only one player
-          numberOfAtoms,
-          100,
-          0.1
-        );
+        new CakeCuttingGeneticAlgorithm(invalidProblem, algorithmConfig);
       }).toThrow('Must have at least 2 players');
     });
 
     test('should throw error if valuations length does not match numberOfAtoms', () => {
-      const invalidPlayers = [
-        new Player([0.5, 0.5]), // wrong length
-        new Player([0.25, 0.25, 0.25, 0.25]),
-        new Player([0.3, 0.3, 0.4])
-      ];
+      const invalidProblem: CakeCuttingProblem = {
+        players: [
+          new Player([0.5, 0.5]), // wrong length
+          new Player([0.25, 0.25, 0.25, 0.25]),
+          new Player([0.3, 0.3, 0.4])
+        ],
+        numberOfAtoms: 5
+      };
 
       expect(() => {
-        new CakeCuttingGeneticAlgorithm(
-          invalidPlayers,
-          numberOfAtoms,
-          100,
-          0.1
-        );
+        new CakeCuttingGeneticAlgorithm(invalidProblem, algorithmConfig);
       }).toThrow();
     });
   });
@@ -131,18 +132,16 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should handle simple case with perfect division', () => {
       // Create a simple case where perfect division is possible
-      const simplePlayers = [
-        new Player([1, 0, 0]),
-        new Player([0, 1, 0]),
-        new Player([0, 0, 1])
-      ];
+      const problem: CakeCuttingProblem = {
+        players: [
+          new Player([1, 0, 0]),
+          new Player([0, 1, 0]),
+          new Player([0, 0, 1])
+        ],
+        numberOfAtoms: 3
+      };
 
-      const simpleAlgorithm = new CakeCuttingGeneticAlgorithm(
-        simplePlayers,
-        3,
-        100,
-        0.1
-      );
+      const simpleAlgorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
       const solution = simpleAlgorithm.evolve(100);
       // In this case, a perfect solution should have fitness 0 (no envy)
@@ -152,34 +151,30 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
   describe('Edge Cases', () => {
     test('should handle minimum number of players (2)', () => {
-      const twoPlayers = [
-        new Player([1, 0]),
-        new Player([0, 1])
-      ];
+      const smallProblem: CakeCuttingProblem = {
+        players: [
+          new Player([1, 0]),
+          new Player([0, 1])
+        ],
+        numberOfAtoms: 2
+      };
 
-      const smallAlgorithm = new CakeCuttingGeneticAlgorithm(
-        twoPlayers,
-        2,
-        100,
-        0.1
-      );
+      const smallAlgorithm = new CakeCuttingGeneticAlgorithm(smallProblem, algorithmConfig);
 
       const solution = smallAlgorithm.evolve(10);
       expect(solution.chromosome.length).toBe(1); // Should only have one cut
     });
 
     test('should handle single atom valuations', () => {
-      const singleAtomPlayers = [
-        new Player([1]),
-        new Player([1])
-      ];
+      const singleAtomProblem: CakeCuttingProblem = {
+        players: [
+          new Player([1]),
+          new Player([1])
+        ],
+        numberOfAtoms: 1
+      };
 
-      const singleAtomAlgorithm = new CakeCuttingGeneticAlgorithm(
-        singleAtomPlayers,
-        1,
-        100,
-        0.1
-      );
+      const singleAtomAlgorithm = new CakeCuttingGeneticAlgorithm(singleAtomProblem, algorithmConfig);
 
       const solution = singleAtomAlgorithm.evolve(10);
       expect(solution.chromosome.length).toBe(1);

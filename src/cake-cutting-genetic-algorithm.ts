@@ -1,5 +1,7 @@
 import Individual from './individual';
 import Player from './player';
+import { CakeCuttingProblem } from './cake-cutting-problem';
+import { GeneticAlgorithmConfig } from './genetic-algorithm-config';
 
 export default class CakeCuttingGeneticAlgorithm {
   private readonly populationSize: number;
@@ -9,29 +11,24 @@ export default class CakeCuttingGeneticAlgorithm {
   private readonly players: Player[];
   private population: Individual[];
 
-  constructor(
-    players: Player[],
-    numberOfAtoms: number,
-    populationSize: number = 100,
-    mutationRate: number = 0.1
-  ) {
-    if (players.length < 2) {
+  constructor(problem: CakeCuttingProblem, config: GeneticAlgorithmConfig) {
+    if (problem.players.length < 2) {
       throw new Error('Must have at least 2 players');
     }
 
-    if (players.some(player => player.numberOfValuations !== numberOfAtoms)) {
+    if (problem.players.some(player => player.numberOfValuations !== problem.numberOfAtoms)) {
       throw new Error('All players must have valuations matching the number of atoms');
     }
 
-    if (numberOfAtoms < 1) {
+    if (problem.numberOfAtoms < 1) {
       throw new Error('Must have at least 1 atom');
     }
 
-    this.populationSize = populationSize;
-    this.numberOfCuts = players.length - 1;
-    this.mutationRate = mutationRate;
-    this.numberOfAtoms = numberOfAtoms;
-    this.players = players;
+    this.populationSize = config.populationSize;
+    this.numberOfCuts = problem.players.length - 1;
+    this.mutationRate = config.mutationRate;
+    this.numberOfAtoms = problem.numberOfAtoms;
+    this.players = problem.players;
     this.population = [];
     this.initializePopulation();
   }
