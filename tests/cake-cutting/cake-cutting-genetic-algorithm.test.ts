@@ -1,7 +1,7 @@
-import CakeCuttingGeneticAlgorithm from '../src/cake-cutting-genetic-algorithm';
-import { CakeCuttingProblem } from '../src/cake-cutting-problem';
-import { GeneticAlgorithmConfig } from '../src/genetic-algorithm-config';
-import Player from '../src/player';
+import { CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/cake-cutting-genetic-algorithm';
+import { CakeCuttingProblem } from '../../src/cake-cutting/cake-cutting-problem';
+import { GeneticAlgorithmConfig } from '../../src/cake-cutting/genetic-algorithm-config';
+import { Player } from '../../src/cake-cutting/player';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup

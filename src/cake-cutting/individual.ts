@@ -1,4 +1,4 @@
-export default class Individual {
+export class Individual {
   private readonly _chromosome: number[];
   private readonly _fitness: number;
 

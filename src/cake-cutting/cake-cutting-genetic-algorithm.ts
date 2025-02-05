@@ -1,9 +1,9 @@
-import Individual from './individual';
-import Player from './player';
 import { CakeCuttingProblem } from './cake-cutting-problem';
 import { GeneticAlgorithmConfig } from './genetic-algorithm-config';
+import { Individual } from './individual';
+import { Player } from './player';
 
-export default class CakeCuttingGeneticAlgorithm {
+export class CakeCuttingGeneticAlgorithm {
   private readonly populationSize: number;
   private readonly numberOfCuts: number;
   private readonly mutationRate: number;

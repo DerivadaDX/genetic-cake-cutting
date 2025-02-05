@@ -1,4 +1,4 @@
-import Individual from '../src/individual';
+import { Individual } from '../../src/cake-cutting/individual';
 
 describe('Individual', () => {
   const numberOfAtoms = 7;

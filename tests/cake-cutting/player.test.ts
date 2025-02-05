@@ -1,5 +1,5 @@
-// player.test.ts
-import Player from '../src/player';
+import { Player } from '../../src/cake-cutting/player';
+
 
 describe('Player', () => {
   describe('Constructor Validation', () => {
