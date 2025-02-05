@@ -4,13 +4,13 @@ import { CakeCuttingProblem, GeneticAlgorithmConfig } from './cake-cutting/types
 
 // Create players with their valuations
 const playerValuations = [
-  new PlayerValuations([0.2, 0, 0, 0.3, 0.5, 0, 0]),    // Player 1 values atoms 0, 3 and 4
-  new PlayerValuations([0, 0.4, 0.3, 0, 0, 0.3, 0]),    // Player 2 values atoms 1, 2 and 5
-  new PlayerValuations([0, 0, 0, 0, 0, 0.4, 0.6])       // Player 3 values atoms 5 and 6
+  new PlayerValuations([0.2, 0.0, 0.0, 0.3, 0.5, 0.0, 0.0]),      // Player 1 values atoms 0, 3 and 4
+  new PlayerValuations([0.0, 0.4, 0.3, 0.0, 0.0, 0.3, 0.0]),      // Player 2 values atoms 1, 2 and 5
+  new PlayerValuations([0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.6])       // Player 3 values atoms 5 and 6
 ];
 
 // Define the problem
-const problem: CakeCuttingProblem = { playerValuations };
+const cuttingProblemInstance: CakeCuttingProblem = { playerValuations };
 
 // Define genetic algorithm configuration
 const algorithmConfig: GeneticAlgorithmConfig = {
@@ -19,14 +19,15 @@ const algorithmConfig: GeneticAlgorithmConfig = {
 };
 
 // Create genetic algorithm instance
-const ga = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
+const geneticAlgorithm = new CakeCuttingGeneticAlgorithm(cuttingProblemInstance, algorithmConfig);
 
 // Run evolution
-const solution = ga.evolve(100);
+const generations = 1000;
+const solution = geneticAlgorithm.evolve(generations);
 console.log('Best solution found:', solution);
 
 // Evaluate the solution to see detailed piece values
-const evaluation = ga.evaluateSolution(solution.chromosome);
+const evaluation = geneticAlgorithm.evaluateSolution(solution.chromosome);
 
 console.log('\nPieces created by the cuts:');
 evaluation.pieces.forEach((piece, index) => {
