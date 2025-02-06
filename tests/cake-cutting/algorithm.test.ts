@@ -1,6 +1,6 @@
 import { CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
 import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
-import { CakeCuttingProblem, GeneticAlgorithmConfig } from '../../src/cake-cutting/types';
+import { ProblemInstance, GeneticAlgorithmConfig } from '../../src/cake-cutting/types';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup
@@ -12,7 +12,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   const numberOfAtoms = playerValuations[0].valuations.length;
   const numberOfPlayers = playerValuations.length;
 
-  const problem: CakeCuttingProblem = { playerValuations };
+  const problem: ProblemInstance = { playerValuations };
   const algorithmConfig: GeneticAlgorithmConfig = {
     populationSize: 100,
     mutationRate: 0.1
@@ -30,7 +30,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should throw error if less than 2 players are provided', () => {
-      const invalidProblem: CakeCuttingProblem = {
+      const invalidProblem: ProblemInstance = {
         playerValuations: [new PlayerValuations([0.5, 0, 0, 0, 0, 0.5, 0])],  // only one player
       };
 
@@ -40,7 +40,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should throw error if valuations length does not match numberOfAtoms', () => {
-      const invalidProblem: CakeCuttingProblem = {
+      const invalidProblem: ProblemInstance = {
         playerValuations: [
           new PlayerValuations([0.5, 0.5]), // wrong length
           new PlayerValuations([0.25, 0.25, 0.25, 0.25]),
@@ -146,7 +146,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should handle tied preferences correctly', () => {
       // Configurar un caso donde dos jugadores prefieren la misma pieza
-      const problem: CakeCuttingProblem = {
+      const problem: ProblemInstance = {
         playerValuations: [
           new PlayerValuations([0.5, 0.5, 0, 0]), // Prefiere pieza 0
           new PlayerValuations([0.6, 0.4, 0, 0]), // Prefiere pieza 0
@@ -167,7 +167,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     // Agregar dentro del bloque 'describe('Solution Quality', () => { ... })'
 
     test('perfect division should assign optimal pieces', () => {
-      const problem: CakeCuttingProblem = {
+      const problem: ProblemInstance = {
         playerValuations: [
           new PlayerValuations([1, 0, 0]),
           new PlayerValuations([0, 1, 0]),
@@ -184,7 +184,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should assign all pieces even with zero-value sections', () => {
-      const problem: CakeCuttingProblem = {
+      const problem: ProblemInstance = {
         playerValuations: [
           new PlayerValuations([1, 0, 0]),
           new PlayerValuations([1, 0, 0]),
@@ -213,7 +213,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should handle simple case with perfect division', () => {
       // Create a simple case where perfect division is possible
-      const problem: CakeCuttingProblem = {
+      const problem: ProblemInstance = {
         playerValuations: [
           new PlayerValuations([1, 0, 0]),
           new PlayerValuations([0, 1, 0]),
@@ -231,7 +231,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
   describe('Edge Cases', () => {
     test('should handle minimum number of players (2)', () => {
-      const smallProblem: CakeCuttingProblem = {
+      const smallProblem: ProblemInstance = {
         playerValuations: [
           new PlayerValuations([1, 0]),
           new PlayerValuations([0, 1])
@@ -245,7 +245,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should handle single atom valuations', () => {
-      const singleAtomProblem: CakeCuttingProblem = {
+      const singleAtomProblem: ProblemInstance = {
         playerValuations: [
           new PlayerValuations([1]),
           new PlayerValuations([1])

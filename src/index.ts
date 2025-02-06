@@ -1,6 +1,6 @@
 import { CakeCuttingGeneticAlgorithm } from './cake-cutting/algorithm';
 import { PlayerValuations } from './cake-cutting/player-valuations';
-import { CakeCuttingProblem, GeneticAlgorithmConfig } from './cake-cutting/types';
+import { ProblemInstance, GeneticAlgorithmConfig } from './cake-cutting/types';
 
 // Create players with their valuations
 const playerValuations = [
@@ -10,7 +10,7 @@ const playerValuations = [
 ];
 
 // Define the problem
-const cuttingProblemInstance: CakeCuttingProblem = { playerValuations };
+const cuttingProblemInstance: ProblemInstance = { playerValuations };
 
 // Define genetic algorithm configuration
 const algorithmConfig: GeneticAlgorithmConfig = {

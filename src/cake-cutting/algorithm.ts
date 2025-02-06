@@ -1,6 +1,6 @@
 import { Individual } from './individual';
 import { PlayerValuations } from './player-valuations';
-import { CakeCuttingProblem, GeneticAlgorithmConfig } from './types';
+import { ProblemInstance, GeneticAlgorithmConfig } from './types';
 
 export class CakeCuttingGeneticAlgorithm {
   private readonly populationSize: number;
@@ -10,7 +10,7 @@ export class CakeCuttingGeneticAlgorithm {
   private readonly players: PlayerValuations[];
   private population: Individual[];
 
-  constructor(problem: CakeCuttingProblem, config: GeneticAlgorithmConfig) {
+  constructor(problem: ProblemInstance, config: GeneticAlgorithmConfig) {
     if (problem.playerValuations.length < 2) {
       throw new Error('Must have at least 2 players');
     }

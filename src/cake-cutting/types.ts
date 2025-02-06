@@ -5,6 +5,6 @@ export type GeneticAlgorithmConfig = {
   mutationRate: number;
 }
 
-export type CakeCuttingProblem = {
+export type ProblemInstance = {
   playerValuations: PlayerValuations[];
 }
