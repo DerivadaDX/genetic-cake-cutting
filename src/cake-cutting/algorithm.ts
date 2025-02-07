@@ -72,10 +72,9 @@ export class CakeCuttingGeneticAlgorithm {
   } {
     const pieces = this.getPiecesValues(cuts);
     const playerEvaluations = this.players.map((_, playerIndex) =>
-      pieces.map((piece) => this.evaluatePieceForPlayer(piece, playerIndex)),
+      pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex)),
     );
 
-    // Assign pieces to maximize value for each player
     const assignments = this.assignPiecesToPlayers(playerEvaluations);
 
     return {

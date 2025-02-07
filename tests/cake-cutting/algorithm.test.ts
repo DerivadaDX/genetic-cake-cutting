@@ -71,7 +71,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       }
 
       // Check if cuts are within bounds
-      solution.chromosome.forEach((cut) => {
+      solution.chromosome.forEach(cut => {
         expect(cut).toBeGreaterThanOrEqual(0);
         expect(cut).toBeLessThanOrEqual(numberOfAtoms);
       });
@@ -150,7 +150,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(uniqueAssignments.size).toBe(assignments.length);
 
       // Cada asignación debe ser un índice válido de pieza
-      assignments.forEach((pieceIndex) => {
+      assignments.forEach(pieceIndex => {
         expect(pieceIndex).toBeGreaterThanOrEqual(0);
         expect(pieceIndex).toBeLessThan(numberOfPlayers);
       });

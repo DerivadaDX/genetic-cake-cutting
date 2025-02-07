@@ -13,11 +13,11 @@ export class Individual {
       throw new Error('Chromosome must be an array');
     }
 
-    if (chromosome.some((cut) => !Number.isInteger(cut))) {
+    if (chromosome.some(cut => !Number.isInteger(cut))) {
       throw new Error('Chromosome must contain only integer values');
     }
 
-    if (chromosome.some((cut) => cut < 0 || cut > numberOfAtoms)) {
+    if (chromosome.some(cut => cut < 0 || cut > numberOfAtoms)) {
       throw new Error(`Chromosome values must be between 0 and ${numberOfAtoms}`);
     }
 
