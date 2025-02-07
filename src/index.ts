@@ -10,7 +10,7 @@ const playerValuations = [
 ];
 
 // Define the problem
-const cuttingProblemInstance: ProblemInstance = { playerValuations };
+const problemInstance: ProblemInstance = { playerValuations };
 
 // Define genetic algorithm configuration
 const algorithmConfig: AlgorithmConfig = {
@@ -19,7 +19,7 @@ const algorithmConfig: AlgorithmConfig = {
 };
 
 // Create genetic algorithm instance
-const geneticAlgorithm = new CakeCuttingGeneticAlgorithm(cuttingProblemInstance, algorithmConfig);
+const geneticAlgorithm = new CakeCuttingGeneticAlgorithm(problemInstance, algorithmConfig);
 
 // Run evolution
 const generations = 1000;
