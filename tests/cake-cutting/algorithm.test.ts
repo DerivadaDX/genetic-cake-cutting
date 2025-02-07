@@ -1,6 +1,6 @@
-import { CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
+import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
 import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
-import { ProblemInstance, GeneticAlgorithmConfig } from '../../src/cake-cutting/types';
+import { ProblemInstance } from '../../src/cake-cutting/types';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup
@@ -13,7 +13,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   const numberOfPlayers = playerValuations.length;
 
   const problem: ProblemInstance = { playerValuations };
-  const algorithmConfig: GeneticAlgorithmConfig = {
+  const algorithmConfig: AlgorithmConfig = {
     populationSize: 100,
     mutationRate: 0.1
   };
