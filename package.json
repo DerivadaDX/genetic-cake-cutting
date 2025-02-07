@@ -10,7 +10,7 @@
   },
   "author": "DerivadaDX",
   "license": "MIT",
-  "description": "",
+  "description": "A genetic algorithm that attempts to achieve envy-free division of discrete cakes among multiple players.",
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.5",
