@@ -1,3 +1,5 @@
+import { RandomGenerator } from '../random-generator';
+import { RandomGeneratorFactory } from '../random-generator-factory';
 import { Individual } from './individual';
 import { PlayerValuations } from './player-valuations';
 import { ProblemInstance } from './problem-instance';
@@ -13,6 +15,7 @@ export class CakeCuttingGeneticAlgorithm {
   private readonly mutationRate: number;
   private readonly numberOfAtoms: number;
   private readonly players: PlayerValuations[];
+  private readonly random: RandomGenerator;
   private population: Individual[];
 
   constructor(problem: ProblemInstance, config: AlgorithmConfig) {
@@ -34,6 +37,7 @@ export class CakeCuttingGeneticAlgorithm {
     this.mutationRate = config.mutationRate;
     this.numberOfAtoms = numberOfAtoms;
     this.players = problem.playerValuations;
+    this.random = RandomGeneratorFactory.create();
     this.population = [];
     this.initializePopulation();
   }
@@ -97,7 +101,7 @@ export class CakeCuttingGeneticAlgorithm {
 
     // Fisher-Yates shuffle, but only for the needed number of elements
     for (let i = 0; i < this.numberOfCuts; i++) {
-      const randomIndex = i + Math.floor(Math.random() * (positions.length - i));
+      const randomIndex = i + Math.floor(this.random.next() * (positions.length - i));
       [positions[i], positions[randomIndex]] = [positions[randomIndex], positions[i]];
     }
 
@@ -109,10 +113,10 @@ export class CakeCuttingGeneticAlgorithm {
 
   private selection(): Individual {
     const tournamentSize = 3;
-    let best: Individual = this.population[Math.floor(Math.random() * this.populationSize)];
+    let best: Individual = this.population[Math.floor(this.random.next() * this.populationSize)];
 
     for (let i = 0; i < tournamentSize - 1; i++) {
-      const contestant = this.population[Math.floor(Math.random() * this.populationSize)];
+      const contestant = this.population[Math.floor(this.random.next() * this.populationSize)];
       if (contestant.fitness > best.fitness) {
         best = contestant;
       }
@@ -122,7 +126,7 @@ export class CakeCuttingGeneticAlgorithm {
   }
 
   private crossover(parent1: number[], parent2: number[]): number[] {
-    const crossoverPoint = Math.floor(Math.random() * this.numberOfCuts);
+    const crossoverPoint = Math.floor(this.random.next() * this.numberOfCuts);
     const firstParentData = parent1.slice(0, crossoverPoint);
     const secondParentData = parent2.slice(crossoverPoint);
 
@@ -133,8 +137,8 @@ export class CakeCuttingGeneticAlgorithm {
   private mutate(chromosome: number[]): number[] {
     const mutatedChromosome = chromosome
       .map(gene => {
-        if (Math.random() < this.mutationRate) {
-          const newPosition = Math.floor(Math.random() * (this.numberOfAtoms + 1));
+        if (this.random.next() < this.mutationRate) {
+          const newPosition = Math.floor(this.random.next() * (this.numberOfAtoms + 1));
           return newPosition;
         }
         return gene;
