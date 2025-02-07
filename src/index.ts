@@ -1,6 +1,6 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from './cake-cutting/algorithm';
 import { PlayerValuations } from './cake-cutting/player-valuations';
-import { ProblemInstance } from './cake-cutting/types';
+import { ProblemInstance } from './cake-cutting/problem-instance';
 
 // Create players with their valuations
 const playerValuations = [

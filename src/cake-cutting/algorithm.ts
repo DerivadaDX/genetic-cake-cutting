@@ -1,6 +1,6 @@
 import { Individual } from './individual';
 import { PlayerValuations } from './player-valuations';
-import { ProblemInstance } from './types';
+import { ProblemInstance } from './problem-instance';
 
 export type AlgorithmConfig = {
   populationSize: number;

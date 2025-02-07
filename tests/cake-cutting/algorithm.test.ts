@@ -1,6 +1,6 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
 import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
-import { ProblemInstance } from '../../src/cake-cutting/types';
+import { ProblemInstance } from '../../src/cake-cutting/problem-instance';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup
