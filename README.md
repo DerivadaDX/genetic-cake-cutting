@@ -59,4 +59,5 @@ envy-free allocation. The key steps include:
 
 ## References
 
-- Javier Marenco, Tomás Tetzlaff, _Envy-free division of discrete cakes_. Discrete Applied Mathematics, 2013.
+- Marenco, J., & Tetzlaff, T. (2013). *Envy-free division of discrete cakes*. Discrete Applied Mathematics, 163(Part 2),
+  233-244. [DOI: 10.1016/j.dam.2013.06.032](https://doi.org/10.1016/j.dam.2013.06.032)
