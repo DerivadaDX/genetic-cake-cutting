@@ -4,9 +4,9 @@ import { ProblemInstance } from './cake-cutting/problem-instance';
 
 // Create players with their valuations
 const playerValuations = [
-  new PlayerValuations([0.2, 0.0, 0.0, 0.3, 0.5, 0.0, 0.0]),      // Player 1 values atoms 0, 3 and 4
-  new PlayerValuations([0.0, 0.4, 0.3, 0.0, 0.0, 0.3, 0.0]),      // Player 2 values atoms 1, 2 and 5
-  new PlayerValuations([0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.6])       // Player 3 values atoms 5 and 6
+  new PlayerValuations([0.2, 0.0, 0.0, 0.3, 0.5, 0.0, 0.0]),
+  new PlayerValuations([0.0, 0.4, 0.3, 0.0, 0.0, 0.3, 0.0]),
+  new PlayerValuations([0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.6]),
 ];
 
 // Define the problem
@@ -15,7 +15,7 @@ const problemInstance: ProblemInstance = { playerValuations };
 // Define genetic algorithm configuration
 const algorithmConfig: AlgorithmConfig = {
   populationSize: 100,
-  mutationRate: 0.1
+  mutationRate: 0.1,
 };
 
 // Create genetic algorithm instance
@@ -39,11 +39,13 @@ evaluation.playerEvaluations.forEach((playerEvals, playerIndex) => {
   console.log(`\nPlayer ${playerIndex + 1}:`);
   playerEvals.forEach((value, pieceIndex) => {
     const isAssigned = evaluation.assignments[playerIndex] === pieceIndex;
-    console.log(`  Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value ${isAssigned ? '(ASSIGNED)' : ''}`);
+    const log = `  Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value ${isAssigned ? '(ASSIGNED)' : ''}`;
+    console.log(log);
   });
 });
 
 console.log('\nFinal assignments:');
 evaluation.assignments.forEach((pieceIndex, playerIndex) => {
-  console.log(`Player ${playerIndex + 1} gets piece ${pieceIndex + 1} (atoms ${evaluation.pieces[pieceIndex][0]} to ${evaluation.pieces[pieceIndex][1]})`);
+  const log = `Player ${playerIndex + 1} gets piece ${pieceIndex + 1} (atoms ${evaluation.pieces[pieceIndex][0]} to ${evaluation.pieces[pieceIndex][1]})`;
+  console.log(log);
 });

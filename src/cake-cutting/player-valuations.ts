@@ -8,7 +8,7 @@ export class PlayerValuations {
 
   private validateValuations(valuations: number[]): void {
     // Validate that all values are between 0 and 1
-    if (!valuations.every(v => v >= 0 && v <= 1)) {
+    if (!valuations.every((v) => v >= 0 && v <= 1)) {
       throw new Error('All valuations must be between 0 and 1');
     }
 

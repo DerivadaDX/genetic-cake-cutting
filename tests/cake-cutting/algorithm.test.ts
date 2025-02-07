@@ -5,9 +5,9 @@ import { ProblemInstance } from '../../src/cake-cutting/problem-instance';
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup
   const playerValuations = [
-    new PlayerValuations([0.2, 0, 0, 0.3, 0.5, 0, 0]),    // Player 1
-    new PlayerValuations([0, 0.4, 0.3, 0, 0, 0.3, 0]),    // Player 2
-    new PlayerValuations([0, 0, 0, 0, 0, 0.4, 0.6])       // Player 3
+    new PlayerValuations([0.2, 0, 0, 0.3, 0.5, 0, 0]), // Player 1
+    new PlayerValuations([0, 0.4, 0.3, 0, 0, 0.3, 0]), // Player 2
+    new PlayerValuations([0, 0, 0, 0, 0, 0.4, 0.6]), // Player 3
   ];
   const numberOfAtoms = playerValuations[0].valuations.length;
   const numberOfPlayers = playerValuations.length;
@@ -15,7 +15,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   const problem: ProblemInstance = { playerValuations };
   const algorithmConfig: AlgorithmConfig = {
     populationSize: 100,
-    mutationRate: 0.1
+    mutationRate: 0.1,
   };
 
   let algorithm: CakeCuttingGeneticAlgorithm;
@@ -31,7 +31,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should throw error if less than 2 players are provided', () => {
       const invalidProblem: ProblemInstance = {
-        playerValuations: [new PlayerValuations([0.5, 0, 0, 0, 0, 0.5, 0])],  // only one player
+        playerValuations: [new PlayerValuations([0.5, 0, 0, 0, 0, 0.5, 0])], // only one player
       };
 
       expect(() => {
@@ -44,8 +44,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
         playerValuations: [
           new PlayerValuations([0.5, 0.5]), // wrong length
           new PlayerValuations([0.25, 0.25, 0.25, 0.25]),
-          new PlayerValuations([0.3, 0.3, 0.4])
-        ]
+          new PlayerValuations([0.3, 0.3, 0.4]),
+        ],
       };
 
       expect(() => {
@@ -71,7 +71,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       }
 
       // Check if cuts are within bounds
-      solution.chromosome.forEach(cut => {
+      solution.chromosome.forEach((cut) => {
         expect(cut).toBeGreaterThanOrEqual(0);
         expect(cut).toBeLessThanOrEqual(numberOfAtoms);
       });
@@ -89,7 +89,11 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const evaluation = algorithm.evaluateSolution(cuts);
 
       // Verify pieces are correct
-      expect(evaluation.pieces).toEqual([[0, 2], [2, 4], [4, 7]]);
+      expect(evaluation.pieces).toEqual([
+        [0, 2],
+        [2, 4],
+        [4, 7],
+      ]);
 
       // Verify player 1's evaluations (0.2, 0.3, 0.5)
       expect(evaluation.playerEvaluations[0][0]).toBe(0.2); // First piece
@@ -102,19 +106,27 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(evaluation.playerEvaluations[1][2]).toBe(0.3); // Third piece (0 + 0.3 + 0)
 
       // Verify player 3's evaluations (0, 0, 1.0)
-      expect(evaluation.playerEvaluations[2][0]).toBe(0);   // First piece
-      expect(evaluation.playerEvaluations[2][1]).toBe(0);   // Second piece
+      expect(evaluation.playerEvaluations[2][0]).toBe(0); // First piece
+      expect(evaluation.playerEvaluations[2][1]).toBe(0); // Second piece
       expect(evaluation.playerEvaluations[2][2]).toBe(1.0); // Third piece
     });
 
     test('should evaluate edge case solutions', () => {
       // Test with all cuts at beginning
       const evaluation1 = algorithm.evaluateSolution([0, 0]);
-      expect(evaluation1.pieces).toEqual([[0, 0], [0, 0], [0, 7]]);
+      expect(evaluation1.pieces).toEqual([
+        [0, 0],
+        [0, 0],
+        [0, 7],
+      ]);
 
       // Test with all cuts at end
       const evaluation2 = algorithm.evaluateSolution([7, 7]);
-      expect(evaluation2.pieces).toEqual([[0, 7], [7, 7], [7, 7]]);
+      expect(evaluation2.pieces).toEqual([
+        [0, 7],
+        [7, 7],
+        [7, 7],
+      ]);
     });
 
     // Agregar dentro del bloque 'describe('Solution Evaluation', () => { ... })'
@@ -138,7 +150,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(uniqueAssignments.size).toBe(assignments.length);
 
       // Cada asignación debe ser un índice válido de pieza
-      assignments.forEach(pieceIndex => {
+      assignments.forEach((pieceIndex) => {
         expect(pieceIndex).toBeGreaterThanOrEqual(0);
         expect(pieceIndex).toBeLessThan(numberOfPlayers);
       });
@@ -150,8 +162,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
         playerValuations: [
           new PlayerValuations([0.5, 0.5, 0, 0]), // Prefiere pieza 0
           new PlayerValuations([0.6, 0.4, 0, 0]), // Prefiere pieza 0
-          new PlayerValuations([0, 0, 0.3, 0.7])  // Prefiere pieza 3
-        ]
+          new PlayerValuations([0, 0, 0.3, 0.7]), // Prefiere pieza 3
+        ],
       };
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
@@ -171,8 +183,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
         playerValuations: [
           new PlayerValuations([1, 0, 0]),
           new PlayerValuations([0, 1, 0]),
-          new PlayerValuations([0, 0, 1])
-        ]
+          new PlayerValuations([0, 0, 1]),
+        ],
       };
 
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
@@ -188,8 +200,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
         playerValuations: [
           new PlayerValuations([1, 0, 0]),
           new PlayerValuations([1, 0, 0]),
-          new PlayerValuations([1, 0, 0])
-        ]
+          new PlayerValuations([1, 0, 0]),
+        ],
       };
 
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
@@ -217,8 +229,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
         playerValuations: [
           new PlayerValuations([1, 0, 0]),
           new PlayerValuations([0, 1, 0]),
-          new PlayerValuations([0, 0, 1])
-        ]
+          new PlayerValuations([0, 0, 1]),
+        ],
       };
 
       const simpleAlgorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
@@ -232,10 +244,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   describe('Edge Cases', () => {
     test('should handle minimum number of players (2)', () => {
       const smallProblem: ProblemInstance = {
-        playerValuations: [
-          new PlayerValuations([1, 0]),
-          new PlayerValuations([0, 1])
-        ]
+        playerValuations: [new PlayerValuations([1, 0]), new PlayerValuations([0, 1])],
       };
 
       const smallAlgorithm = new CakeCuttingGeneticAlgorithm(smallProblem, algorithmConfig);
@@ -246,10 +255,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should handle single atom valuations', () => {
       const singleAtomProblem: ProblemInstance = {
-        playerValuations: [
-          new PlayerValuations([1]),
-          new PlayerValuations([1])
-        ]
+        playerValuations: [new PlayerValuations([1]), new PlayerValuations([1])],
       };
 
       const singleAtomAlgorithm = new CakeCuttingGeneticAlgorithm(singleAtomProblem, algorithmConfig);

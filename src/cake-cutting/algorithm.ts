@@ -5,7 +5,7 @@ import { ProblemInstance } from './problem-instance';
 export type AlgorithmConfig = {
   populationSize: number;
   mutationRate: number;
-}
+};
 
 export class CakeCuttingGeneticAlgorithm {
   private readonly populationSize: number;
@@ -20,7 +20,11 @@ export class CakeCuttingGeneticAlgorithm {
       throw new Error('Must have at least 2 players');
     }
 
-    if (problem.playerValuations.some(player => player.numberOfValuations !== problem.playerValuations[0].valuations.length)) {
+    if (
+      problem.playerValuations.some(
+        (player) => player.numberOfValuations !== problem.playerValuations[0].valuations.length,
+      )
+    ) {
       throw new Error('All players must have valuations matching the number of atoms');
     }
 
@@ -62,13 +66,13 @@ export class CakeCuttingGeneticAlgorithm {
   }
 
   public evaluateSolution(cuts: number[]): {
-    pieces: [number, number][],
-    playerEvaluations: number[][],
-    assignments: number[]
+    pieces: [number, number][];
+    playerEvaluations: number[][];
+    assignments: number[];
   } {
     const pieces = this.getPiecesValues(cuts);
     const playerEvaluations = this.players.map((_, playerIndex) =>
-      pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex))
+      pieces.map((piece) => this.evaluatePieceForPlayer(piece, playerIndex)),
     );
 
     // Assign pieces to maximize value for each player
@@ -77,7 +81,7 @@ export class CakeCuttingGeneticAlgorithm {
     return {
       pieces,
       playerEvaluations,
-      assignments
+      assignments,
     };
   }
 
@@ -144,8 +148,7 @@ export class CakeCuttingGeneticAlgorithm {
         if (i !== j) {
           const otherPiece = pieces[j];
           // Add penalty if player i values player j's piece more than their own
-          if (this.evaluatePieceForPlayer(otherPiece, i) >
-            this.evaluatePieceForPlayer(playerPiece, i)) {
+          if (this.evaluatePieceForPlayer(otherPiece, i) > this.evaluatePieceForPlayer(playerPiece, i)) {
             fitness -= 1;
           }
         }
@@ -199,12 +202,14 @@ export class CakeCuttingGeneticAlgorithm {
   }
 
   private mutate(chromosome: number[]): number[] {
-    return chromosome.map(gene => {
-      if (Math.random() < this.mutationRate) {
-        const newPosition = Math.floor(Math.random() * (this.numberOfAtoms + 1));
-        return newPosition;
-      }
-      return gene;
-    }).sort((a, b) => a - b);
+    return chromosome
+      .map((gene) => {
+        if (Math.random() < this.mutationRate) {
+          const newPosition = Math.floor(Math.random() * (this.numberOfAtoms + 1));
+          return newPosition;
+        }
+        return gene;
+      })
+      .sort((a, b) => a - b);
   }
 }
