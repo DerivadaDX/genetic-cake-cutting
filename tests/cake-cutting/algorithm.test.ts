@@ -149,12 +149,12 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should handle tied preferences correctly', () => {
-      // Configurar un caso donde dos jugadores prefieren la misma pieza
+      // Set up a case where two players prefer the same piece
       const problem: ProblemInstance = {
         playerValuations: [
-          new PlayerValuations([0.5, 0.5, 0, 0]), // Prefiere pieza 0
-          new PlayerValuations([0.6, 0.4, 0, 0]), // Prefiere pieza 0
-          new PlayerValuations([0, 0, 0.3, 0.7]), // Prefiere pieza 3
+          new PlayerValuations([0.5, 0.5, 0, 0]), // Prefers piece 0
+          new PlayerValuations([0.6, 0.4, 0, 0]), // Prefers piece 0
+          new PlayerValuations([0, 0, 0.3, 0.7]), // Prefers piece 3
         ],
       };
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
@@ -162,10 +162,10 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const cuts = [2, 3];
       const allocation = algorithm.getAllocation(cuts);
 
-      // Jugador 0 obtiene pieza 0, Jugador 1 obtiene siguiente disponible
+      // Player 0 gets piece 0, Player 1 gets next available
       expect(allocation.assignments[0]).toBe(0);
-      expect(allocation.assignments[1]).toBe(1); // Asignación por orden
-      expect(allocation.assignments[2]).toBe(2); // Única pieza restante
+      expect(allocation.assignments[1]).toBe(1); // Order-based assignment
+      expect(allocation.assignments[2]).toBe(2); // Only remaining piece
     });
 
     test('perfect division should assign optimal pieces', () => {
@@ -181,7 +181,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const solution = algorithm.evolve(100);
       const allocation = algorithm.getAllocation(solution.chromosome);
 
-      // Cada jugador debe obtener su pieza preferida
+      // Each player should get their preferred piece
       expect(allocation.assignments).toEqual([0, 1, 2]);
     });
 
@@ -198,9 +198,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const cuts = [1, 2];
       const allocation = algorithm.getAllocation(cuts);
 
-      // Verificar que todas las piezas están asignadas
+      // Verify that all pieces are assigned
       expect(new Set(allocation.assignments).size).toBe(3);
-      expect(allocation.assignments).toEqual([0, 1, 2]); // Asignación por orden
+      expect(allocation.assignments).toEqual([0, 1, 2]); // Order-based assignment
     });
   });
 
