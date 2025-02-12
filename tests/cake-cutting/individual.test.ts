@@ -100,9 +100,7 @@ describe('Individual', () => {
     let mockEvaluateFitness: jest.Mock;
 
     beforeEach(() => {
-      mockRandom = {
-        next: jest.fn()
-      };
+      mockRandom = { next: jest.fn() };
       mockEvaluateFitness = jest.fn();
     });
 
@@ -137,9 +135,7 @@ describe('Individual', () => {
     let mockEvaluateFitness: jest.Mock;
 
     beforeEach(() => {
-      mockRandom = {
-        next: jest.fn(),
-      };
+      mockRandom = { next: jest.fn() };
       mockEvaluateFitness = jest.fn();
     });
 
