@@ -1,8 +1,6 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
 import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
 import { ProblemInstance } from '../../src/cake-cutting/problem-instance';
-import { IRandomGenerator } from '../../src/random-generator';
-import { RandomGeneratorFactory } from '../../src/random-generator-factory';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup
@@ -21,16 +19,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   };
 
   let algorithm: CakeCuttingGeneticAlgorithm;
-  let mockRandom: jest.Mocked<IRandomGenerator>;
-
   beforeEach(() => {
-    mockRandom = { next: jest.fn() };
-    RandomGeneratorFactory.setGenerator(mockRandom);
     algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
-  });
-
-  afterEach(() => {
-    RandomGeneratorFactory.setGenerator(undefined as any);
   });
 
   describe('Constructor', () => {
