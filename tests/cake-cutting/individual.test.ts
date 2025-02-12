@@ -155,7 +155,7 @@ describe('Individual', () => {
       mockRandom.next
         .mockReturnValueOnce(0.1) // Below mutation rate
         .mockReturnValueOnce(0.5) // New position calculation
-        .mockReturnValueOnce(0.8) // Above mutation rate for second gene
+        .mockReturnValueOnce(0.8); // Above mutation rate for second gene
       mockEvaluateFitness.mockReturnValue(-3);
 
       const mutated = individual.mutate(0.5, mockEvaluateFitness, mockRandom);

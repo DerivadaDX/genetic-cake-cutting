@@ -6,18 +6,21 @@ export class Individual {
   private readonly _numberOfAtoms: number;
 
   constructor(chromosome: number[], fitness: number, numberOfAtoms: number) {
-    if (!Array.isArray(chromosome))
+    if (!Array.isArray(chromosome)) {
       throw new Error('Chromosome must be an array');
+    }
 
-    if (chromosome.some(cut => !Number.isInteger(cut)))
+    if (chromosome.some(cut => !Number.isInteger(cut))) {
       throw new Error('Chromosome must contain only integer values');
+    }
 
     if (chromosome.some(cut => cut < 0 || cut > numberOfAtoms))
       throw new Error(`Chromosome values must be between 0 and ${numberOfAtoms}`);
 
     for (let i = 1; i < chromosome.length; i++) {
-      if (chromosome[i] < chromosome[i - 1])
+      if (chromosome[i] < chromosome[i - 1]) {
         throw new Error('Chromosome cuts must be in ascending order');
+      }
     }
 
     this._chromosome = [...chromosome];
@@ -25,7 +28,11 @@ export class Individual {
     this._numberOfAtoms = numberOfAtoms;
   }
 
-  public crossover(other: Individual, evaluateFitness: (chromosome: number[]) => number, random: IRandomGenerator): Individual {
+  public crossover(
+    other: Individual,
+    evaluateFitness: (chromosome: number[]) => number,
+    random: IRandomGenerator,
+  ): Individual {
     const crossoverPoint = Math.floor(random.next() * this.numberOfCuts);
     const firstParentData = this.chromosome.slice(0, crossoverPoint);
     const secondParentData = other.chromosome.slice(crossoverPoint);
@@ -36,7 +43,11 @@ export class Individual {
     return child;
   }
 
-  public mutate(mutationRate: number, evaluateFitness: (chromosome: number[]) => number, random: IRandomGenerator): Individual {
+  public mutate(
+    mutationRate: number,
+    evaluateFitness: (chromosome: number[]) => number,
+    random: IRandomGenerator,
+  ): Individual {
     const mutatedChromosome = this.chromosome
       .map(gene => {
         if (random.next() < mutationRate) {

@@ -20,15 +20,18 @@ export class CakeCuttingGeneticAlgorithm {
 
   constructor(problem: ProblemInstance, config: AlgorithmConfig) {
     const numberOfPlayers = problem.playerValuations.length;
-    if (numberOfPlayers < 2)
+    if (numberOfPlayers < 2) {
       throw new Error('Must have at least 2 players');
+    }
 
     const numberOfAtoms = problem.playerValuations[0].valuations.length;
-    if (numberOfAtoms < 1)
+    if (numberOfAtoms < 1) {
       throw new Error('Must have at least 1 atom');
+    }
 
-    if (problem.playerValuations.some(player => player.numberOfValuations !== numberOfAtoms))
+    if (problem.playerValuations.some(player => player.numberOfValuations !== numberOfAtoms)) {
       throw new Error('All players must have valuations matching the number of atoms');
+    }
 
     this.numberOfAtoms = numberOfAtoms;
     this.numberOfCuts = numberOfPlayers - 1;
