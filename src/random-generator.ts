@@ -1,6 +1,10 @@
 import seedrandom from 'seedrandom';
 
-export class RandomGenerator {
+export interface IRandomGenerator {
+  next(): number;
+}
+
+export class RandomGenerator implements IRandomGenerator {
   private rng: seedrandom.PRNG;
 
   constructor(seed?: string | number) {

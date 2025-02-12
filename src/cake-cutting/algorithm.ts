@@ -1,4 +1,4 @@
-import { RandomGenerator } from '../random-generator';
+import { IRandomGenerator } from '../random-generator';
 import { RandomGeneratorFactory } from '../random-generator-factory';
 import { Individual } from './individual';
 import { PlayerValuations } from './player-valuations';
@@ -15,7 +15,7 @@ export class CakeCuttingGeneticAlgorithm {
   private readonly mutationRate: number;
   private readonly numberOfAtoms: number;
   private readonly players: PlayerValuations[];
-  private readonly random: RandomGenerator;
+  private readonly random: IRandomGenerator;
   private population: Individual[];
 
   constructor(problem: ProblemInstance, config: AlgorithmConfig) {
