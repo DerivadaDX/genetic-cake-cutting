@@ -2,6 +2,8 @@ import { IRandomGenerator } from '../random-generator';
 import { RandomGeneratorFactory } from '../random-generator-factory';
 import { Allocation } from './allocation';
 import { CutSet } from './cut-set';
+import { IFitnessEvaluator } from './fitness/fitness-evaluator';
+import { FitnessEvaluatorFactory } from './fitness/fitness-evaluator-factory';
 import { Individual } from './individual';
 import { Piece } from './piece';
 import { PlayerValuations } from './player-valuations';
@@ -19,6 +21,7 @@ export class CakeCuttingGeneticAlgorithm {
   private readonly numberOfAtoms: number;
   private readonly players: PlayerValuations[];
   private readonly random: IRandomGenerator;
+  private readonly fitnessEvaluator: IFitnessEvaluator;
   private population: Individual[];
 
   constructor(problem: ProblemInstance, config: AlgorithmConfig) {
@@ -43,6 +46,7 @@ export class CakeCuttingGeneticAlgorithm {
     this.mutationRate = config.mutationRate;
     this.populationSize = config.populationSize;
     this.random = RandomGeneratorFactory.create();
+    this.fitnessEvaluator = FitnessEvaluatorFactory.create(this.players);
 
     this.population = [];
     this.initializePopulation();
@@ -107,25 +111,8 @@ export class CakeCuttingGeneticAlgorithm {
   }
 
   private evaluateFitness(chromosome: number[]): number {
-    let fitness = 0;
     const pieces = this.getPiecesValues(chromosome);
-
-    // Calculate envy-freeness measure
-    for (let i = 0; i < this.players.length; i++) {
-      const playerPiece = pieces[i];
-      // Check if player i envies any other player
-      for (let j = 0; j < this.players.length; j++) {
-        if (i !== j) {
-          const otherPiece = pieces[j];
-          // Add penalty if player i values player j's piece more than their own
-          if (this.evaluatePieceForPlayer(otherPiece, i) > this.evaluatePieceForPlayer(playerPiece, i)) {
-            fitness -= 1;
-          }
-        }
-      }
-    }
-
-    return fitness;
+    return this.fitnessEvaluator.evaluate(pieces);
   }
 
   private getPiecesValues(chromosome: number[]): Piece[] {
