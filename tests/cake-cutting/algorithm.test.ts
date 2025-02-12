@@ -88,11 +88,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const allocation = algorithm.getAllocation(individual);
 
       // Verify pieces are correct
-      expect(allocation.pieces).toEqual([
-        new Piece(0, 2),
-        new Piece(2, 4),
-        new Piece(4, 7),
-      ]);
+      expect(allocation.pieces).toEqual([new Piece(0, 2), new Piece(2, 4), new Piece(4, 7)]);
 
       // Verify player 1's evaluations (0.2, 0.3, 0.5)
       expect(allocation.playerEvaluations[0][0]).toBe(0.2); // First piece
@@ -114,20 +110,12 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const cutSet0 = new CutSet([0, 0], numberOfAtoms);
       const individual0 = new Individual(cutSet0);
       const allocation1 = algorithm.getAllocation(individual0);
-      expect(allocation1.pieces).toEqual([
-        new Piece(0, 0),
-        new Piece(0, 0),
-        new Piece(0, 7),
-      ]);
+      expect(allocation1.pieces).toEqual([new Piece(0, 0), new Piece(0, 0), new Piece(0, 7)]);
 
       const cutSet7 = new CutSet([7, 7], numberOfAtoms);
       const individual7 = new Individual(cutSet7);
       const allocation2 = algorithm.getAllocation(individual7);
-      expect(allocation2.pieces).toEqual([
-        new Piece(0, 7),
-        new Piece(7, 7),
-        new Piece(7, 7),
-      ]);
+      expect(allocation2.pieces).toEqual([new Piece(0, 7), new Piece(7, 7), new Piece(7, 7)]);
     });
 
     test('should correctly assign pieces in the example case', () => {
@@ -228,10 +216,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
   describe('Edge Cases', () => {
     test('should handle minimum number of players (2)', () => {
-      const smallProblem = new ProblemInstance([
-        new PlayerValuations([1, 0]),
-        new PlayerValuations([0, 1]),
-      ]);
+      const smallProblem = new ProblemInstance([new PlayerValuations([1, 0]), new PlayerValuations([0, 1])]);
 
       const smallAlgorithm = new CakeCuttingGeneticAlgorithm(smallProblem, algorithmConfig);
 
@@ -240,10 +225,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should handle single atom valuations', () => {
-      const singleAtomProblem = new ProblemInstance([
-        new PlayerValuations([1]),
-        new PlayerValuations([1]),
-      ]);
+      const singleAtomProblem = new ProblemInstance([new PlayerValuations([1]), new PlayerValuations([1])]);
 
       const singleAtomAlgorithm = new CakeCuttingGeneticAlgorithm(singleAtomProblem, algorithmConfig);
 

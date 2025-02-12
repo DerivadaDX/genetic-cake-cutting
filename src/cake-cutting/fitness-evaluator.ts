@@ -6,7 +6,7 @@ export interface IFitnessEvaluator {
 }
 
 export class FitnessEvaluator implements IFitnessEvaluator {
-  constructor(private readonly players: PlayerValuations[]) { }
+  constructor(private readonly players: PlayerValuations[]) {}
 
   public evaluate(individual: Individual): number {
     const pieces = this.getPiecesFromChromosome(individual.chromosome);
