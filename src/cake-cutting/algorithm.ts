@@ -53,11 +53,10 @@ export class CakeCuttingGeneticAlgorithm {
         const parent1 = this.selection();
         const parent2 = this.selection();
 
-        let childChromosome = this.crossover(parent1.chromosome, parent2.chromosome);
-        childChromosome = this.mutate(childChromosome);
-
-        const childFitness = this.evaluateFitness(childChromosome);
-        newPopulation.push(new Individual(childChromosome, childFitness, this.numberOfAtoms));
+        const evaluateFitness = this.evaluateFitness.bind(this);
+        const child = parent1.crossover(parent2, evaluateFitness, this.random);
+        const mutatedChild = child.mutate(this.mutationRate, evaluateFitness, this.random);
+        newPopulation.push(mutatedChild);
       }
 
       this.population = newPopulation;
@@ -123,28 +122,6 @@ export class CakeCuttingGeneticAlgorithm {
     }
 
     return best;
-  }
-
-  private crossover(parent1: number[], parent2: number[]): number[] {
-    const crossoverPoint = Math.floor(this.random.next() * this.numberOfCuts);
-    const firstParentData = parent1.slice(0, crossoverPoint);
-    const secondParentData = parent2.slice(crossoverPoint);
-
-    const child = [...firstParentData, ...secondParentData].sort((a, b) => a - b);
-    return child;
-  }
-
-  private mutate(chromosome: number[]): number[] {
-    const mutatedChromosome = chromosome
-      .map(gene => {
-        if (this.random.next() < this.mutationRate) {
-          const newPosition = Math.floor(this.random.next() * (this.numberOfAtoms + 1));
-          return newPosition;
-        }
-        return gene;
-      })
-      .sort((a, b) => a - b);
-    return mutatedChromosome;
   }
 
   private evaluateFitness(chromosome: number[]): number {
