@@ -11,7 +11,7 @@ export class RandomGenerator implements IRandomGenerator {
     this.rng = seedrandom(seed?.toString());
   }
 
-  next(): number {
+  public next(): number {
     const random = this.rng();
     return random;
   }

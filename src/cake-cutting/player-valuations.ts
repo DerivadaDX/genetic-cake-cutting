@@ -2,12 +2,6 @@ export class PlayerValuations {
   private readonly _valuations: number[];
 
   constructor(valuations: number[]) {
-    this.validateValuations(valuations);
-    this._valuations = [...valuations];
-  }
-
-  private validateValuations(valuations: number[]): void {
-    // Validate that all values are between 0 and 1
     if (!valuations.every(v => v >= 0 && v <= 1)) {
       throw new Error('All valuations must be between 0 and 1');
     }
@@ -18,6 +12,8 @@ export class PlayerValuations {
     if (Math.abs(sum - 1) > epsilon) {
       throw new Error('Valuations must sum exactly to 1');
     }
+
+    this._valuations = [...valuations];
   }
 
   get valuations(): number[] {
@@ -28,10 +24,12 @@ export class PlayerValuations {
     return this._valuations.length;
   }
 
-  getValuationAt(index: number): number {
+  public getValuationAt(index: number): number {
     if (index < 0 || index >= this._valuations.length) {
       throw new Error('Valuation index out of bounds');
     }
-    return this._valuations[index];
+
+    const valuation = this._valuations[index];
+    return valuation;
   }
 }
