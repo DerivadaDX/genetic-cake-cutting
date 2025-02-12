@@ -24,28 +24,29 @@ const geneticAlgorithm = new CakeCuttingGeneticAlgorithm(problemInstance, algori
 // Run evolution
 const generations = 1000;
 const solution = geneticAlgorithm.evolve(generations);
-console.log('Best solution found:', solution);
+console.log('Best solution found:', solution.chromosome);
 
-// Evaluate the solution to see detailed piece values
-const evaluation = geneticAlgorithm.getAllocation(solution.chromosome);
+// Evaluate the allocation to see detailed piece values
+const evaluation = geneticAlgorithm.getAllocation(solution);
 
 console.log('\nPieces created by the cuts:');
 evaluation.pieces.forEach((piece, index) => {
-  console.log(`Piece ${index + 1}: atoms ${piece[0]} to ${piece[1]}`);
+  const message = `- Piece ${index + 1}: atoms ${piece.start} to ${piece.end}`;
+  console.log(message);
 });
 
 console.log('\nHow each player values each piece:');
 evaluation.playerEvaluations.forEach((playerEvals, playerIndex) => {
-  console.log(`\nPlayer ${playerIndex + 1}:`);
+  console.log(`- Player ${playerIndex + 1}:`);
   playerEvals.forEach((value, pieceIndex) => {
     const isAssigned = evaluation.assignments[playerIndex] === pieceIndex;
-    const log = `  Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value ${isAssigned ? '(ASSIGNED)' : ''}`;
-    console.log(log);
+    const message = `  - Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value${isAssigned ? ' (ASSIGNED)' : ''}`;
+    console.log(message);
   });
 });
 
 console.log('\nFinal assignments:');
 evaluation.assignments.forEach((pieceIndex, playerIndex) => {
-  const log = `Player ${playerIndex + 1} gets piece ${pieceIndex + 1} (atoms ${evaluation.pieces[pieceIndex][0]} to ${evaluation.pieces[pieceIndex][1]})`;
-  console.log(log);
+  const message = `- Player ${playerIndex + 1} gets piece ${pieceIndex + 1} (atoms ${evaluation.pieces[pieceIndex].start} to ${evaluation.pieces[pieceIndex].end})`;
+  console.log(message);
 });
