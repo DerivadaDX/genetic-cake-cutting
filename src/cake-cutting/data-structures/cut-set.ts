@@ -1,4 +1,4 @@
-import { IRandomGenerator } from '../random-generator';
+import { IRandomGenerator } from '../../random-generator';
 
 export class CutSet {
   private readonly _cuts: number[];

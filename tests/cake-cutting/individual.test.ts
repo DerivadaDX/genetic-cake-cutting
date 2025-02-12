@@ -1,4 +1,4 @@
-import { CutSet } from '../../src/cake-cutting/cut-set';
+import { CutSet } from '../../src/cake-cutting/data-structures';
 import { Individual } from '../../src/cake-cutting/individual';
 import { IRandomGenerator } from '../../src/random-generator';
 

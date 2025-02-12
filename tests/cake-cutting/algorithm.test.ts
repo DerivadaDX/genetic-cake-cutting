@@ -1,9 +1,6 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
-import { CutSet } from '../../src/cake-cutting/cut-set';
+import { CutSet, Piece, PlayerValuations, ProblemInstance } from '../../src/cake-cutting/data-structures';
 import { Individual } from '../../src/cake-cutting/individual';
-import { Piece } from '../../src/cake-cutting/piece';
-import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
-import { ProblemInstance } from '../../src/cake-cutting/problem-instance';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   // Test fixture setup

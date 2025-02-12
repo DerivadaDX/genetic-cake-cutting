@@ -1,4 +1,4 @@
-import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
+import { PlayerValuations } from '../../../src/cake-cutting/data-structures';
 
 describe('Player', () => {
   describe('Constructor Validation', () => {

@@ -1,5 +1,5 @@
 import { FitnessEvaluator, IFitnessEvaluator } from './fitness-evaluator';
-import { PlayerValuations } from '../player-valuations';
+import { PlayerValuations } from './data-structures';
 
 export class FitnessEvaluatorFactory {
     private static _evaluator: IFitnessEvaluator;

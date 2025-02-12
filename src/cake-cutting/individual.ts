@@ -1,5 +1,5 @@
 import { IRandomGenerator } from '../random-generator';
-import { CutSet } from './cut-set';
+import { CutSet } from './data-structures';
 
 export class Individual {
   private readonly _chromosome: CutSet;

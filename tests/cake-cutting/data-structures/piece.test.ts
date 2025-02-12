@@ -1,4 +1,4 @@
-import { Piece } from '../../src/cake-cutting/piece';
+import { Piece } from '../../../src/cake-cutting/data-structures';
 
 describe('Piece', () => {
   describe('Constructor', () => {

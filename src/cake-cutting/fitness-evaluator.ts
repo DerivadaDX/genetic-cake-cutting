@@ -1,13 +1,12 @@
-import { Individual } from '../individual';
-import { Piece } from '../piece';
-import { PlayerValuations } from '../player-valuations';
+import { Individual } from './individual';
+import { Piece, PlayerValuations } from './data-structures';
 
 export interface IFitnessEvaluator {
   evaluate(individual: Individual): number;
 }
 
 export class FitnessEvaluator implements IFitnessEvaluator {
-  constructor(private readonly players: PlayerValuations[]) {}
+  constructor(private readonly players: PlayerValuations[]) { }
 
   public evaluate(individual: Individual): number {
     const pieces = this.getPiecesFromChromosome(individual.chromosome);
@@ -34,12 +33,12 @@ export class FitnessEvaluator implements IFitnessEvaluator {
   private getPiecesFromChromosome(chromosome: number[]): Piece[] {
     const pieces: Piece[] = [];
     let start = 0;
-    
+
     for (const cut of chromosome) {
       pieces.push(new Piece(start, cut));
       start = cut;
     }
-    
+
     // Add last piece until end of cake
     const lastAtom = this.players[0].numberOfValuations;
     pieces.push(new Piece(start, lastAtom));

@@ -1,13 +1,9 @@
 import { IRandomGenerator } from '../random-generator';
 import { RandomGeneratorFactory } from '../random-generator-factory';
-import { Allocation } from './allocation';
-import { CutSet } from './cut-set';
-import { IFitnessEvaluator } from './fitness/fitness-evaluator';
-import { FitnessEvaluatorFactory } from './fitness/fitness-evaluator-factory';
+import { Allocation, CutSet, Piece, PlayerValuations, ProblemInstance } from './data-structures';
+import { IFitnessEvaluator } from './fitness-evaluator';
+import { FitnessEvaluatorFactory } from './fitness-evaluator-factory';
 import { Individual } from './individual';
-import { Piece } from './piece';
-import { PlayerValuations } from './player-valuations';
-import { ProblemInstance } from './problem-instance';
 
 export type AlgorithmConfig = {
   populationSize: number;
