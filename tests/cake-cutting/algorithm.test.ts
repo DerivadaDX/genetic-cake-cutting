@@ -1,6 +1,7 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
 import { CutSet } from '../../src/cake-cutting/cut-set';
 import { Individual } from '../../src/cake-cutting/individual';
+import { Piece } from '../../src/cake-cutting/piece';
 import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
 import { ProblemInstance } from '../../src/cake-cutting/problem-instance';
 
@@ -93,9 +94,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
       // Verify pieces are correct
       expect(allocation.pieces).toEqual([
-        [0, 2],
-        [2, 4],
-        [4, 7],
+        new Piece(0, 2),
+        new Piece(2, 4),
+        new Piece(4, 7),
       ]);
 
       // Verify player 1's evaluations (0.2, 0.3, 0.5)
@@ -119,18 +120,18 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const individual0 = new Individual(cutSet0, 0);
       const allocation1 = algorithm.getAllocation(individual0);
       expect(allocation1.pieces).toEqual([
-        [0, 0],
-        [0, 0],
-        [0, 7],
+        new Piece(0, 0),
+        new Piece(0, 0),
+        new Piece(0, 7),
       ]);
 
       const cutSet7 = new CutSet([7, 7], numberOfAtoms);
       const individual7 = new Individual(cutSet7, 0);
       const allocation2 = algorithm.getAllocation(individual7);
       expect(allocation2.pieces).toEqual([
-        [0, 7],
-        [7, 7],
-        [7, 7],
+        new Piece(0, 7),
+        new Piece(7, 7),
+        new Piece(7, 7),
       ]);
     });
 

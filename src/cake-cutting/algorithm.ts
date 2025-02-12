@@ -3,6 +3,7 @@ import { RandomGeneratorFactory } from '../random-generator-factory';
 import { Allocation } from './allocation';
 import { CutSet } from './cut-set';
 import { Individual } from './individual';
+import { Piece } from './piece';
 import { PlayerValuations } from './player-valuations';
 import { ProblemInstance } from './problem-instance';
 
@@ -127,24 +128,24 @@ export class CakeCuttingGeneticAlgorithm {
     return fitness;
   }
 
-  private getPiecesValues(chromosome: number[]): [number, number][] {
-    const pieces: [number, number][] = [];
+  private getPiecesValues(chromosome: number[]): Piece[] {
+    const pieces: Piece[] = [];
 
     // Create pieces from cuts
     let start = 0;
     for (const cut of chromosome) {
-      pieces.push([start, cut]);
+      pieces.push(new Piece(start, cut));
       start = cut;
     }
     // Add last piece
-    pieces.push([start, this.numberOfAtoms]);
+    pieces.push(new Piece(start, this.numberOfAtoms));
 
     return pieces;
   }
 
-  private evaluatePieceForPlayer(piece: [number, number], playerIndex: number): number {
+  private evaluatePieceForPlayer(piece: Piece, playerIndex: number): number {
     let value = 0;
-    for (let atomIndex = piece[0]; atomIndex < piece[1]; atomIndex++) {
+    for (let atomIndex = piece.start; atomIndex < piece.end; atomIndex++) {
       value += this.players[playerIndex].getValuationAt(atomIndex);
     }
     return value;
