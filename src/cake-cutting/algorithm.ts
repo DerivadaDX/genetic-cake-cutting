@@ -63,9 +63,13 @@ export class CakeCuttingGeneticAlgorithm {
         const parent1 = this.selection();
         const parent2 = this.selection();
 
-        const evaluateFitness = this.evaluateFitness.bind(this);
-        const child = parent1.crossover(parent2, this.numberOfAtoms, evaluateFitness, this.random);
-        const mutatedChild = child.mutate(this.mutationRate, this.numberOfAtoms, evaluateFitness, this.random);
+        const child = parent1.crossover(parent2, this.numberOfAtoms, this.random);
+        const mutatedChild = child.mutate(this.mutationRate, this.numberOfAtoms, this.random);
+
+        // Calculate and set fitness for the new child
+        const fitness = this.fitnessEvaluator.evaluate(mutatedChild);
+        mutatedChild.setFitness(fitness);
+
         newPopulation.push(mutatedChild);
       }
 
@@ -90,8 +94,9 @@ export class CakeCuttingGeneticAlgorithm {
   private initializePopulation(): void {
     for (let i = 0; i < this.populationSize; i++) {
       const cutSet = CutSet.createRandom(this.numberOfCuts, this.numberOfAtoms, this.random);
-      const fitness = this.evaluateFitness(cutSet.cuts);
-      const newIndividual = new Individual(cutSet, fitness);
+      const newIndividual = new Individual(cutSet);
+      const fitness = this.fitnessEvaluator.evaluate(newIndividual);
+      newIndividual.setFitness(fitness);
       this.population.push(newIndividual);
     }
   }
@@ -108,11 +113,6 @@ export class CakeCuttingGeneticAlgorithm {
     }
 
     return best;
-  }
-
-  private evaluateFitness(chromosome: number[]): number {
-    const pieces = this.getPiecesValues(chromosome);
-    return this.fitnessEvaluator.evaluate(pieces);
   }
 
   private getPiecesValues(chromosome: number[]): Piece[] {

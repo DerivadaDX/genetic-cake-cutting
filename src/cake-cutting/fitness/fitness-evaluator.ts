@@ -1,14 +1,16 @@
+import { Individual } from '../individual';
 import { Piece } from '../piece';
 import { PlayerValuations } from '../player-valuations';
 
 export interface IFitnessEvaluator {
-  evaluate(pieces: Piece[]): number;
+  evaluate(individual: Individual): number;
 }
 
 export class FitnessEvaluator implements IFitnessEvaluator {
-  constructor(private readonly players: PlayerValuations[]) { }
+  constructor(private readonly players: PlayerValuations[]) {}
 
-  public evaluate(pieces: Piece[]): number {
+  public evaluate(individual: Individual): number {
+    const pieces = this.getPiecesFromChromosome(individual.chromosome);
     let fitness = 0;
 
     // Calculate envy-freeness measure
@@ -27,6 +29,22 @@ export class FitnessEvaluator implements IFitnessEvaluator {
     }
 
     return fitness;
+  }
+
+  private getPiecesFromChromosome(chromosome: number[]): Piece[] {
+    const pieces: Piece[] = [];
+    let start = 0;
+    
+    for (const cut of chromosome) {
+      pieces.push(new Piece(start, cut));
+      start = cut;
+    }
+    
+    // Add last piece until end of cake
+    const lastAtom = this.players[0].numberOfValuations;
+    pieces.push(new Piece(start, lastAtom));
+
+    return pieces;
   }
 
   private evaluatePieceForPlayer(piece: Piece, playerIndex: number): number {

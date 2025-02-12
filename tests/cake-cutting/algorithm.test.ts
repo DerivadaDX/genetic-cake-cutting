@@ -89,7 +89,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   describe('Solution Evaluation', () => {
     test('should correctly evaluate cut allocation', () => {
       const cutSet = new CutSet([2, 4], numberOfAtoms);
-      const individual = new Individual(cutSet, 0);
+      const individual = new Individual(cutSet);
       const allocation = algorithm.getAllocation(individual);
 
       // Verify pieces are correct
@@ -117,7 +117,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should handle edge case allocations', () => {
       const cutSet0 = new CutSet([0, 0], numberOfAtoms);
-      const individual0 = new Individual(cutSet0, 0);
+      const individual0 = new Individual(cutSet0);
       const allocation1 = algorithm.getAllocation(individual0);
       expect(allocation1.pieces).toEqual([
         new Piece(0, 0),
@@ -126,7 +126,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       ]);
 
       const cutSet7 = new CutSet([7, 7], numberOfAtoms);
-      const individual7 = new Individual(cutSet7, 0);
+      const individual7 = new Individual(cutSet7);
       const allocation2 = algorithm.getAllocation(individual7);
       expect(allocation2.pieces).toEqual([
         new Piece(0, 7),
@@ -137,14 +137,14 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should correctly assign pieces in the example case', () => {
       const cutSet = new CutSet([2, 4], numberOfAtoms);
-      const individual = new Individual(cutSet, 0);
+      const individual = new Individual(cutSet);
       const allocation = algorithm.getAllocation(individual);
       expect(allocation.assignments).toEqual([2, 0, 1]);
     });
 
     test('assignments should be unique and valid indices', () => {
       const cutSet = new CutSet([2, 4], numberOfAtoms);
-      const individual = new Individual(cutSet, 0);
+      const individual = new Individual(cutSet);
       const allocation = algorithm.getAllocation(individual);
 
       const assignments = allocation.assignments;
@@ -169,7 +169,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
       const cutSet = new CutSet([2, 3], 4);
-      const individual = new Individual(cutSet, 0);
+      const individual = new Individual(cutSet);
       const allocation = algorithm.getAllocation(individual);
 
       // Player 0 gets piece 0, Player 1 gets next available
@@ -206,7 +206,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
       const cutSet = new CutSet([1, 2], 3);
-      const individual = new Individual(cutSet, 0);
+      const individual = new Individual(cutSet);
       const allocation = algorithm.getAllocation(individual);
 
       // Verify that all pieces are assigned
