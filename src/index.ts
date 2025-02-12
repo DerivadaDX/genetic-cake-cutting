@@ -27,7 +27,7 @@ const solution = geneticAlgorithm.evolve(generations);
 console.log('Best solution found:', solution);
 
 // Evaluate the solution to see detailed piece values
-const evaluation = geneticAlgorithm.evaluateSolution(solution.chromosome);
+const evaluation = geneticAlgorithm.getAllocation(solution.chromosome);
 
 console.log('\nPieces created by the cuts:');
 evaluation.pieces.forEach((piece, index) => {

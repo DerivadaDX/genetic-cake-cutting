@@ -83,72 +83,65 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   });
 
   describe('Solution Evaluation', () => {
-    test('should correctly evaluate a given cut solution', () => {
+    test('should correctly evaluate a given cut allocation', () => {
       const cuts = [2, 4]; // Creates three pieces: [0,2], [2,4], [4,7]
-      const evaluation = algorithm.evaluateSolution(cuts);
+      const allocation = algorithm.getAllocation(cuts);
 
       // Verify pieces are correct
-      expect(evaluation.pieces).toEqual([
+      expect(allocation.pieces).toEqual([
         [0, 2],
         [2, 4],
         [4, 7],
       ]);
 
       // Verify player 1's evaluations (0.2, 0.3, 0.5)
-      expect(evaluation.playerEvaluations[0][0]).toBe(0.2); // First piece
-      expect(evaluation.playerEvaluations[0][1]).toBe(0.3); // Second piece
-      expect(evaluation.playerEvaluations[0][2]).toBe(0.5); // Third piece
+      expect(allocation.playerEvaluations[0][0]).toBe(0.2); // First piece
+      expect(allocation.playerEvaluations[0][1]).toBe(0.3); // Second piece
+      expect(allocation.playerEvaluations[0][2]).toBe(0.5); // Third piece
 
       // Verify player 2's evaluations (0.4, 0.3, 0.3)
-      expect(evaluation.playerEvaluations[1][0]).toBe(0.4); // First piece (0 + 0.4)
-      expect(evaluation.playerEvaluations[1][1]).toBe(0.3); // Second piece (0.3 + 0)
-      expect(evaluation.playerEvaluations[1][2]).toBe(0.3); // Third piece (0 + 0.3 + 0)
+      expect(allocation.playerEvaluations[1][0]).toBe(0.4); // First piece (0 + 0.4)
+      expect(allocation.playerEvaluations[1][1]).toBe(0.3); // Second piece (0.3 + 0)
+      expect(allocation.playerEvaluations[1][2]).toBe(0.3); // Third piece (0 + 0.3 + 0)
 
       // Verify player 3's evaluations (0, 0, 1.0)
-      expect(evaluation.playerEvaluations[2][0]).toBe(0); // First piece
-      expect(evaluation.playerEvaluations[2][1]).toBe(0); // Second piece
-      expect(evaluation.playerEvaluations[2][2]).toBe(1.0); // Third piece
+      expect(allocation.playerEvaluations[2][0]).toBe(0); // First piece
+      expect(allocation.playerEvaluations[2][1]).toBe(0); // Second piece
+      expect(allocation.playerEvaluations[2][2]).toBe(1.0); // Third piece
     });
 
-    test('should evaluate edge case solutions', () => {
+    test('should evaluate edge case allocations', () => {
       // Test with all cuts at beginning
-      const evaluation1 = algorithm.evaluateSolution([0, 0]);
-      expect(evaluation1.pieces).toEqual([
+      const allocation1 = algorithm.getAllocation([0, 0]);
+      expect(allocation1.pieces).toEqual([
         [0, 0],
         [0, 0],
         [0, 7],
       ]);
 
       // Test with all cuts at end
-      const evaluation2 = algorithm.evaluateSolution([7, 7]);
-      expect(evaluation2.pieces).toEqual([
+      const allocation2 = algorithm.getAllocation([7, 7]);
+      expect(allocation2.pieces).toEqual([
         [0, 7],
         [7, 7],
         [7, 7],
       ]);
     });
 
-    // Agregar dentro del bloque 'describe('Solution Evaluation', () => { ... })'
-
     test('should correctly assign pieces in the example case', () => {
       const cuts = [2, 4];
-      const evaluation = algorithm.evaluateSolution(cuts);
-
-      // Verificar asignaciones esperadas: [2, 0, 1]
-      expect(evaluation.assignments).toEqual([2, 0, 1]);
+      const allocation = algorithm.getAllocation(cuts);
+      expect(allocation.assignments).toEqual([2, 0, 1]);
     });
 
     test('assignments should be unique and valid indices', () => {
       const cuts = [2, 4];
-      const evaluation = algorithm.evaluateSolution(cuts);
+      const allocation = algorithm.getAllocation(cuts);
 
-      const assignments = evaluation.assignments;
+      const assignments = allocation.assignments;
       const uniqueAssignments = new Set(assignments);
 
-      // Todas las asignaciones deben ser únicas
       expect(uniqueAssignments.size).toBe(assignments.length);
-
-      // Cada asignación debe ser un índice válido de pieza
       assignments.forEach(pieceIndex => {
         expect(pieceIndex).toBeGreaterThanOrEqual(0);
         expect(pieceIndex).toBeLessThan(numberOfPlayers);
@@ -167,15 +160,13 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
       const cuts = [2, 3];
-      const evaluation = algorithm.evaluateSolution(cuts);
+      const allocation = algorithm.getAllocation(cuts);
 
       // Jugador 0 obtiene pieza 0, Jugador 1 obtiene siguiente disponible
-      expect(evaluation.assignments[0]).toBe(0);
-      expect(evaluation.assignments[1]).toBe(1); // Asignación por orden
-      expect(evaluation.assignments[2]).toBe(2); // Única pieza restante
+      expect(allocation.assignments[0]).toBe(0);
+      expect(allocation.assignments[1]).toBe(1); // Asignación por orden
+      expect(allocation.assignments[2]).toBe(2); // Única pieza restante
     });
-
-    // Agregar dentro del bloque 'describe('Solution Quality', () => { ... })'
 
     test('perfect division should assign optimal pieces', () => {
       const problem: ProblemInstance = {
@@ -188,10 +179,10 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
       const solution = algorithm.evolve(100);
-      const evaluation = algorithm.evaluateSolution(solution.chromosome);
+      const allocation = algorithm.getAllocation(solution.chromosome);
 
       // Cada jugador debe obtener su pieza preferida
-      expect(evaluation.assignments).toEqual([0, 1, 2]);
+      expect(allocation.assignments).toEqual([0, 1, 2]);
     });
 
     test('should assign all pieces even with zero-value sections', () => {
@@ -205,20 +196,17 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
       const cuts = [1, 2];
-      const evaluation = algorithm.evaluateSolution(cuts);
+      const allocation = algorithm.getAllocation(cuts);
 
       // Verificar que todas las piezas están asignadas
-      expect(new Set(evaluation.assignments).size).toBe(3);
-      expect(evaluation.assignments).toEqual([0, 1, 2]); // Asignación por orden
+      expect(new Set(allocation.assignments).size).toBe(3);
+      expect(allocation.assignments).toEqual([0, 1, 2]); // Asignación por orden
     });
   });
 
-  describe('Solution Quality', () => {
-    test('should produce reasonable solutions', () => {
+  describe('Allocation Quality', () => {
+    test('should produce reasonable allocations', () => {
       const solution = algorithm.evolve(100);
-
-      // A reasonable solution should have a fitness better than random allocation
-      // Since fitness is negative (penalties), it should be closer to 0
       expect(solution.fitness).toBeGreaterThan(-numberOfPlayers * (numberOfPlayers - 1));
     });
 

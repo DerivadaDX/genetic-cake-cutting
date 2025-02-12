@@ -3,7 +3,7 @@ import { RandomGeneratorFactory } from '../random-generator-factory';
 import { Individual } from './individual';
 import { PlayerValuations } from './player-valuations';
 import { ProblemInstance } from './problem-instance';
-import { CakeCuttingSolution } from './solution';
+import { Allocation } from './allocation';
 
 export type AlgorithmConfig = {
   populationSize: number;
@@ -70,14 +70,14 @@ export class CakeCuttingGeneticAlgorithm {
     return bestIndividual;
   }
 
-  public evaluateSolution(cuts: number[]): CakeCuttingSolution {
+  public getAllocation(cuts: number[]): Allocation {
     const pieces = this.getPiecesValues(cuts);
     const playerEvaluations = this.players.map((_, playerIndex) =>
       pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex)),
     );
     const assignments = this.assignPiecesToPlayers(playerEvaluations);
 
-    const solution = new CakeCuttingSolution(pieces, playerEvaluations, assignments);
+    const solution = new Allocation(pieces, assignments, playerEvaluations);
     return solution;
   }
 
