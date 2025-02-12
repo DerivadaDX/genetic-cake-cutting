@@ -1,9 +1,10 @@
 import { IRandomGenerator } from '../random-generator';
 import { RandomGeneratorFactory } from '../random-generator-factory';
+import { Allocation } from './allocation';
+import { CutSet } from './cut-set';
 import { Individual } from './individual';
 import { PlayerValuations } from './player-valuations';
 import { ProblemInstance } from './problem-instance';
-import { Allocation } from './allocation';
 
 export type AlgorithmConfig = {
   populationSize: number;
@@ -58,8 +59,8 @@ export class CakeCuttingGeneticAlgorithm {
         const parent2 = this.selection();
 
         const evaluateFitness = this.evaluateFitness.bind(this);
-        const child = parent1.crossover(parent2, evaluateFitness, this.random);
-        const mutatedChild = child.mutate(this.mutationRate, evaluateFitness, this.random);
+        const child = parent1.crossover(parent2, this.numberOfAtoms, evaluateFitness, this.random);
+        const mutatedChild = child.mutate(this.mutationRate, this.numberOfAtoms, evaluateFitness, this.random);
         newPopulation.push(mutatedChild);
       }
 
@@ -70,8 +71,8 @@ export class CakeCuttingGeneticAlgorithm {
     return bestIndividual;
   }
 
-  public getAllocation(cuts: number[]): Allocation {
-    const pieces = this.getPiecesValues(cuts);
+  public getAllocation(individual: Individual): Allocation {
+    const pieces = this.getPiecesValues(individual.chromosome);
     const playerEvaluations = this.players.map((_, playerIndex) =>
       pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex)),
     );
@@ -83,27 +84,11 @@ export class CakeCuttingGeneticAlgorithm {
 
   private initializePopulation(): void {
     for (let i = 0; i < this.populationSize; i++) {
-      const chromosome = this.generateRandomChromosome();
-      const fitness = this.evaluateFitness(chromosome);
-      const newIndividual = new Individual(chromosome, fitness, this.numberOfAtoms);
+      const cutSet = CutSet.createRandom(this.numberOfCuts, this.numberOfAtoms, this.random);
+      const fitness = this.evaluateFitness(cutSet.cuts);
+      const newIndividual = new Individual(cutSet, fitness);
       this.population.push(newIndividual);
     }
-  }
-
-  private generateRandomChromosome(): number[] {
-    // Create an array of all possible positions
-    const positions = Array.from({ length: this.numberOfAtoms + 1 }, (_, i) => i);
-
-    // Fisher-Yates shuffle, but only for the needed number of elements
-    for (let i = 0; i < this.numberOfCuts; i++) {
-      const randomIndex = i + Math.floor(this.random.next() * (positions.length - i));
-      [positions[i], positions[randomIndex]] = [positions[randomIndex], positions[i]];
-    }
-
-    // Return the needed number of cuts, already sorted
-    const selectedCuts = positions.slice(0, this.numberOfCuts);
-    const sortedCuts = selectedCuts.sort((a, b) => a - b);
-    return sortedCuts;
   }
 
   private selection(): Individual {

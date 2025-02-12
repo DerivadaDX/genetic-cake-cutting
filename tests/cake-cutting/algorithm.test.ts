@@ -1,4 +1,6 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
+import { CutSet } from '../../src/cake-cutting/cut-set';
+import { Individual } from '../../src/cake-cutting/individual';
 import { PlayerValuations } from '../../src/cake-cutting/player-valuations';
 import { ProblemInstance } from '../../src/cake-cutting/problem-instance';
 
@@ -63,14 +65,15 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
     test('should maintain valid cut positions', () => {
       const solution = algorithm.evolve(10);
+      const cuts = solution.chromosome;
 
       // Check if cuts are in ascending order
-      for (let i = 1; i < solution.chromosome.length; i++) {
-        expect(solution.chromosome[i]).toBeGreaterThanOrEqual(solution.chromosome[i - 1]);
+      for (let i = 1; i < cuts.length; i++) {
+        expect(cuts[i]).toBeGreaterThanOrEqual(cuts[i - 1]);
       }
 
       // Check if cuts are within bounds
-      solution.chromosome.forEach(cut => {
+      cuts.forEach(cut => {
         expect(cut).toBeGreaterThanOrEqual(0);
         expect(cut).toBeLessThanOrEqual(numberOfAtoms);
       });
@@ -83,9 +86,10 @@ describe('CakeCuttingGeneticAlgorithm', () => {
   });
 
   describe('Solution Evaluation', () => {
-    test('should correctly evaluate a given cut allocation', () => {
-      const cuts = [2, 4]; // Creates three pieces: [0,2], [2,4], [4,7]
-      const allocation = algorithm.getAllocation(cuts);
+    test('should correctly evaluate cut allocation', () => {
+      const cutSet = new CutSet([2, 4], numberOfAtoms);
+      const individual = new Individual(cutSet, 0);
+      const allocation = algorithm.getAllocation(individual);
 
       // Verify pieces are correct
       expect(allocation.pieces).toEqual([
@@ -100,9 +104,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(allocation.playerEvaluations[0][2]).toBe(0.5); // Third piece
 
       // Verify player 2's evaluations (0.4, 0.3, 0.3)
-      expect(allocation.playerEvaluations[1][0]).toBe(0.4); // First piece (0 + 0.4)
-      expect(allocation.playerEvaluations[1][1]).toBe(0.3); // Second piece (0.3 + 0)
-      expect(allocation.playerEvaluations[1][2]).toBe(0.3); // Third piece (0 + 0.3 + 0)
+      expect(allocation.playerEvaluations[1][0]).toBe(0.4); // First piece
+      expect(allocation.playerEvaluations[1][1]).toBe(0.3); // Second piece
+      expect(allocation.playerEvaluations[1][2]).toBe(0.3); // Third piece
 
       // Verify player 3's evaluations (0, 0, 1.0)
       expect(allocation.playerEvaluations[2][0]).toBe(0); // First piece
@@ -110,17 +114,19 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       expect(allocation.playerEvaluations[2][2]).toBe(1.0); // Third piece
     });
 
-    test('should evaluate edge case allocations', () => {
-      // Test with all cuts at beginning
-      const allocation1 = algorithm.getAllocation([0, 0]);
+    test('should handle edge case allocations', () => {
+      const cutSet0 = new CutSet([0, 0], numberOfAtoms);
+      const individual0 = new Individual(cutSet0, 0);
+      const allocation1 = algorithm.getAllocation(individual0);
       expect(allocation1.pieces).toEqual([
         [0, 0],
         [0, 0],
         [0, 7],
       ]);
 
-      // Test with all cuts at end
-      const allocation2 = algorithm.getAllocation([7, 7]);
+      const cutSet7 = new CutSet([7, 7], numberOfAtoms);
+      const individual7 = new Individual(cutSet7, 0);
+      const allocation2 = algorithm.getAllocation(individual7);
       expect(allocation2.pieces).toEqual([
         [0, 7],
         [7, 7],
@@ -129,14 +135,16 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     });
 
     test('should correctly assign pieces in the example case', () => {
-      const cuts = [2, 4];
-      const allocation = algorithm.getAllocation(cuts);
+      const cutSet = new CutSet([2, 4], numberOfAtoms);
+      const individual = new Individual(cutSet, 0);
+      const allocation = algorithm.getAllocation(individual);
       expect(allocation.assignments).toEqual([2, 0, 1]);
     });
 
     test('assignments should be unique and valid indices', () => {
-      const cuts = [2, 4];
-      const allocation = algorithm.getAllocation(cuts);
+      const cutSet = new CutSet([2, 4], numberOfAtoms);
+      const individual = new Individual(cutSet, 0);
+      const allocation = algorithm.getAllocation(individual);
 
       const assignments = allocation.assignments;
       const uniqueAssignments = new Set(assignments);
@@ -159,8 +167,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       };
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const cuts = [2, 3];
-      const allocation = algorithm.getAllocation(cuts);
+      const cutSet = new CutSet([2, 3], 4);
+      const individual = new Individual(cutSet, 0);
+      const allocation = algorithm.getAllocation(individual);
 
       // Player 0 gets piece 0, Player 1 gets next available
       expect(allocation.assignments[0]).toBe(0);
@@ -179,7 +188,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
 
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
       const solution = algorithm.evolve(100);
-      const allocation = algorithm.getAllocation(solution.chromosome);
+      const allocation = algorithm.getAllocation(solution);
 
       // Each player should get their preferred piece
       expect(allocation.assignments).toEqual([0, 1, 2]);
@@ -195,8 +204,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       };
 
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
-      const cuts = [1, 2];
-      const allocation = algorithm.getAllocation(cuts);
+      const cutSet = new CutSet([1, 2], 3);
+      const individual = new Individual(cutSet, 0);
+      const allocation = algorithm.getAllocation(individual);
 
       // Verify that all pieces are assigned
       expect(new Set(allocation.assignments).size).toBe(3);
