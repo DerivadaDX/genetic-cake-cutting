@@ -1,11 +1,10 @@
-import { FitnessEvaluator, IFitnessEvaluator } from './fitness-evaluator';
-import { PlayerValuations } from './data-structures';
+import { IFitnessEvaluator, FitnessEvaluator } from './fitness-evaluator';
 
 export class FitnessEvaluatorFactory {
   private static _evaluator: IFitnessEvaluator;
 
-  public static create(players: PlayerValuations[]): IFitnessEvaluator {
-    const evaluator = this._evaluator ?? new FitnessEvaluator(players);
+  public static create(): IFitnessEvaluator {
+    const evaluator = this._evaluator ?? new FitnessEvaluator();
     return evaluator;
   }
 

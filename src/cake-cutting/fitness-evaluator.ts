@@ -1,26 +1,25 @@
 import { Individual } from './individual';
-import { Piece, PlayerValuations } from './data-structures';
+import { Piece, PlayerValuations, ProblemInstance } from './data-structures';
 
 export interface IFitnessEvaluator {
-  evaluate(individual: Individual): number;
+  evaluate(problem: ProblemInstance, individual: Individual): number;
 }
 
 export class FitnessEvaluator implements IFitnessEvaluator {
-  constructor(private readonly players: PlayerValuations[]) {}
-
-  public evaluate(individual: Individual): number {
-    const pieces = this.getPiecesFromChromosome(individual.chromosome);
+  public evaluate(problem: ProblemInstance, individual: Individual): number {
+    const pieces = this.getPiecesFromChromosome(individual.chromosome, problem);
     let fitness = 0;
 
     // Calculate envy-freeness measure
-    for (let i = 0; i < this.players.length; i++) {
+    const players = problem.playerValuations;
+    for (let i = 0; i < players.length; i++) {
       const playerPiece = pieces[i];
       // Check if player i envies any other player
-      for (let j = 0; j < this.players.length; j++) {
+      for (let j = 0; j < players.length; j++) {
         if (i !== j) {
           const otherPiece = pieces[j];
           // Add penalty if player i values player j's piece more than their own
-          if (this.evaluatePieceForPlayer(otherPiece, i) > this.evaluatePieceForPlayer(playerPiece, i)) {
+          if (this.evaluatePieceForPlayer(otherPiece, i, players) > this.evaluatePieceForPlayer(playerPiece, i, players)) {
             fitness -= 1;
           }
         }
@@ -30,7 +29,7 @@ export class FitnessEvaluator implements IFitnessEvaluator {
     return fitness;
   }
 
-  private getPiecesFromChromosome(chromosome: number[]): Piece[] {
+  private getPiecesFromChromosome(chromosome: number[], problem: ProblemInstance): Piece[] {
     const pieces: Piece[] = [];
     let start = 0;
 
@@ -40,16 +39,16 @@ export class FitnessEvaluator implements IFitnessEvaluator {
     }
 
     // Add last piece until end of cake
-    const lastAtom = this.players[0].numberOfValuations;
-    pieces.push(new Piece(start, lastAtom));
+    const numberOfAtoms = problem.calculateNumberOfAtoms();
+    pieces.push(new Piece(start, numberOfAtoms));
 
     return pieces;
   }
 
-  private evaluatePieceForPlayer(piece: Piece, playerIndex: number): number {
+  private evaluatePieceForPlayer(piece: Piece, playerIndex: number, players: PlayerValuations[]): number {
     let value = 0;
     for (let atomIndex = piece.start; atomIndex < piece.end; atomIndex++) {
-      value += this.players[playerIndex].getValuationAt(atomIndex);
+      value += players[playerIndex].getValuationAt(atomIndex);
     }
     return value;
   }

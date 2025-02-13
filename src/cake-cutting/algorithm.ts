@@ -20,7 +20,7 @@ export class CakeCuttingGeneticAlgorithm {
   private readonly fitnessEvaluator: IFitnessEvaluator;
   private population: Individual[];
 
-  constructor(problem: ProblemInstance, config: AlgorithmConfig) {
+  constructor(private readonly problem: ProblemInstance, config: AlgorithmConfig) {
     const numberOfPlayers = problem.playerValuations.length;
     if (numberOfPlayers < 2) {
       throw new Error('Must have at least 2 players');
@@ -38,7 +38,7 @@ export class CakeCuttingGeneticAlgorithm {
     this.mutationRate = config.mutationRate;
     this.populationSize = config.populationSize;
     this.random = RandomGeneratorFactory.create();
-    this.fitnessEvaluator = FitnessEvaluatorFactory.create(this.players);
+    this.fitnessEvaluator = FitnessEvaluatorFactory.create();
 
     this.population = [];
     this.initializePopulation();
@@ -59,7 +59,7 @@ export class CakeCuttingGeneticAlgorithm {
         const mutatedChild = child.mutate(this.mutationRate, this.numberOfAtoms, this.random);
 
         // Calculate and set fitness for the new child
-        const fitness = this.fitnessEvaluator.evaluate(mutatedChild);
+        const fitness = this.fitnessEvaluator.evaluate(this.problem, mutatedChild);
         mutatedChild.setFitness(fitness);
 
         newPopulation.push(mutatedChild);
@@ -87,7 +87,7 @@ export class CakeCuttingGeneticAlgorithm {
     for (let i = 0; i < this.populationSize; i++) {
       const cutSet = CutSet.createRandom(this.numberOfCuts, this.numberOfAtoms, this.random);
       const newIndividual = new Individual(cutSet);
-      const fitness = this.fitnessEvaluator.evaluate(newIndividual);
+      const fitness = this.fitnessEvaluator.evaluate(this.problem, newIndividual);
       newIndividual.setFitness(fitness);
       this.population.push(newIndividual);
     }
