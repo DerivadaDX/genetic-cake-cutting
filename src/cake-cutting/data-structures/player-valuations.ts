@@ -1,3 +1,5 @@
+import { Piece } from './piece';
+
 export class PlayerValuations {
   private readonly _valuations: number[];
 
@@ -31,5 +33,20 @@ export class PlayerValuations {
 
     const valuation = this._valuations[index];
     return valuation;
+  }
+
+  public getValuationForPiece(piece: Piece): number {
+    if (piece.start < 0 || piece.end > this._valuations.length) {
+      throw new Error('Piece indices out of bounds');
+    }
+
+    if (piece.start > piece.end) {
+      throw new Error('Invalid piece: start must be less than or equal to end');
+    }
+
+    const valuationForPiece = this._valuations
+      .slice(piece.start, piece.end)
+      .reduce((sum, value) => sum + value, 0);
+    return valuationForPiece;
   }
 }
