@@ -1,24 +1,27 @@
 import { Piece } from './piece';
+import { Atom } from './atom';
 
 export class PlayerValuations {
-  private readonly _valuations: number[];
+  private readonly _valuations: Atom[];
 
-  constructor(valuations: number[]) {
-    if (!valuations.every(v => v >= 0 && v <= 1)) {
-      throw new Error('All valuations must be between 0 and 1');
-    }
-
+  constructor(valuations: Atom[]) {
     // Validate that values sum to 1 (with small epsilon for floating point arithmetic)
-    const sum = valuations.reduce((a, b) => a + b, 0);
+    const sum = valuations.reduce((acc, atom) => acc + atom.value, 0);
     const epsilon = 1e-10;
     if (Math.abs(sum - 1) > epsilon) {
       throw new Error('Valuations must sum exactly to 1');
     }
 
-    this._valuations = [...valuations];
+    const positions = valuations.map(atom => atom.position);
+    if (new Set(positions).size !== positions.length) {
+      throw new Error('Atom positions must be unique');
+    }
+
+    // Store valuations sorted by position
+    this._valuations = [...valuations].sort((a, b) => a.position - b.position);
   }
 
-  get valuations(): number[] {
+  get valuations(): Atom[] {
     return [...this._valuations];
   }
 
@@ -26,27 +29,29 @@ export class PlayerValuations {
     return this._valuations.length;
   }
 
-  public getValuationAt(index: number): number {
-    if (index < 0 || index >= this._valuations.length) {
-      throw new Error('Valuation index out of bounds');
+  public getValuationAt(position: number): number {
+    const atom = this._valuations.find(a => a.position === position);
+    if (!atom) {
+      throw new Error('No valuation found at position');
     }
-
-    const valuation = this._valuations[index];
-    return valuation;
+    return atom.value;
   }
 
   public getValuationForPiece(piece: Piece): number {
-    if (piece.start < 0 || piece.end > this._valuations.length) {
-      throw new Error('Piece indices out of bounds');
+    const start = this._valuations.findIndex(a => a.position === piece.start);
+    const end = this._valuations.findIndex(a => a.position === piece.end);
+
+    if (start === -1 || end === -1) {
+      throw new Error('Piece bounds not found in valuations');
     }
 
-    if (piece.start > piece.end) {
+    if (start > end) {
       throw new Error('Invalid piece: start must be less than or equal to end');
     }
 
     const valuationForPiece = this._valuations
-      .slice(piece.start, piece.end)
-      .reduce((sum, value) => sum + value, 0);
+      .slice(start, end)
+      .reduce((sum, atom) => sum + atom.value, 0);
     return valuationForPiece;
   }
 }
