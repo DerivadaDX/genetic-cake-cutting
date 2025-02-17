@@ -38,18 +38,8 @@ export class PlayerValuations {
   }
 
   public getValuationForPiece(piece: Piece): number {
-    const start = this._valuations.findIndex(a => a.position === piece.start);
-    const end = this._valuations.findIndex(a => a.position === piece.end);
-
-    if (start === -1 || end === -1) {
-      throw new Error('Piece bounds not found in valuations');
-    }
-
-    if (start > end) {
-      throw new Error('Invalid piece: start must be less than or equal to end');
-    }
-
-    const valuationForPiece = this._valuations.slice(start, end).reduce((sum, atom) => sum + atom.value, 0);
+    const atomsInPiece = this._valuations.filter(atom => atom.position >= piece.start && atom.position <= piece.end);
+    const valuationForPiece = atomsInPiece.reduce((sum, atom) => sum + atom.value, 0);
     return valuationForPiece;
   }
 }

@@ -36,22 +36,27 @@ describe('PlayerValuations', () => {
   });
 
   describe('getValuationForPiece', () => {
-    const atoms = [new Atom(1, 0.2), new Atom(2, 0.3), new Atom(3, 0.2), new Atom(4, 0.3)];
+    const atoms = [new Atom(1, 0.2), new Atom(3, 0.5), new Atom(5, 0.3)];
     const valuations = new PlayerValuations(atoms);
 
-    it('should calculate correct valuation for valid piece', () => {
+    it('should calculate valuation for piece containing some atoms', () => {
       const piece = new Piece(2, 4);
       expect(valuations.getValuationForPiece(piece)).toBe(0.5);
     });
 
-    it('should throw error when piece bounds are not found', () => {
-      const piece = new Piece(0, 5);
-      expect(() => valuations.getValuationForPiece(piece)).toThrow('Piece bounds not found in valuations');
+    it('should return 0 for piece with no atoms in range', () => {
+      const piece = new Piece(7, 9);
+      expect(valuations.getValuationForPiece(piece)).toBe(0);
     });
 
-    it('should return 0 for empty piece (start equals end)', () => {
+    it('should return 0 for empty piece', () => {
       const piece = new Piece(2, 2);
       expect(valuations.getValuationForPiece(piece)).toBe(0);
+    });
+
+    it('should include atoms at both start and end positions', () => {
+      const piece = new Piece(3, 5);
+      expect(valuations.getValuationForPiece(piece)).toBe(0.8); // Now includes both atoms at 3 and 5
     });
   });
 });
