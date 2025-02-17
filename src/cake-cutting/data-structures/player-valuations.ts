@@ -49,9 +49,7 @@ export class PlayerValuations {
       throw new Error('Invalid piece: start must be less than or equal to end');
     }
 
-    const valuationForPiece = this._valuations
-      .slice(start, end)
-      .reduce((sum, atom) => sum + atom.value, 0);
+    const valuationForPiece = this._valuations.slice(start, end).reduce((sum, atom) => sum + atom.value, 0);
     return valuationForPiece;
   }
 }

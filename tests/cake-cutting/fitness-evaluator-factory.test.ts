@@ -6,7 +6,7 @@ describe('FitnessEvaluatorFactory', () => {
 
   beforeEach(() => {
     mockEvaluator = {
-      evaluate: jest.fn().mockReturnValue(0)
+      evaluate: jest.fn().mockReturnValue(0),
     };
   });
 
