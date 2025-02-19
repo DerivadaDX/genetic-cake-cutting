@@ -17,7 +17,6 @@ export class PlayerValuations {
       throw new Error('Atom positions must be unique');
     }
 
-    // Store valuations sorted by position
     this._valuations = [...valuations].sort((a, b) => a.position - b.position);
   }
 
