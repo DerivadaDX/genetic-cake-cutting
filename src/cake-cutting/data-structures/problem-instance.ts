@@ -1,14 +1,27 @@
 import { PlayerValuations } from './player-valuations';
 
 export class ProblemInstance {
-  playerValuations: PlayerValuations[];
+  private readonly _playerValuations: PlayerValuations[];
+  private readonly _numberOfAtoms: number;
 
   constructor(playerValuations: PlayerValuations[]) {
-    this.playerValuations = playerValuations;
+    this._playerValuations = playerValuations;
+    this._numberOfAtoms = this.calculateNumberOfAtoms();
   }
 
-  public calculateNumberOfAtoms(): number {
-    const numberOfAtoms = this.playerValuations.reduce((sum, player) => sum + player.numberOfValuations, 0);
+  get playerValuations(): PlayerValuations[] {
+    return [...this._playerValuations];
+  }
+
+  get numberOfAtoms(): number {
+    return this._numberOfAtoms;
+  }
+
+  private calculateNumberOfAtoms(): number {
+    if (this._playerValuations.length === 0) return 0;
+
+    const atomPositions = this._playerValuations.flatMap(player => player.valuations.map(atom => atom.position));
+    const numberOfAtoms = Math.max(...atomPositions);
     return numberOfAtoms;
   }
 }
