@@ -5,6 +5,11 @@ export class ProblemInstance {
   private readonly _numberOfAtoms: number;
 
   constructor(playerValuations: PlayerValuations[]) {
+    const allPositions = playerValuations.flatMap(player => player.valuations.map(atom => atom.position));
+    if (new Set(allPositions).size !== allPositions.length) {
+      throw new Error('Atom positions must be unique across all players');
+    }
+
     this._playerValuations = playerValuations;
     this._numberOfAtoms = this.calculateNumberOfAtoms();
   }
