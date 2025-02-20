@@ -25,7 +25,7 @@ export class CakeCuttingGeneticAlgorithm {
       throw new Error('Must have at least 2 players');
     }
 
-    this.numberOfAtoms = problem.calculateNumberOfAtoms();
+    this.numberOfAtoms = problem.numberOfAtoms;
     if (this.numberOfAtoms < 1) {
       throw new Error('Must have at least 1 atom');
     }
