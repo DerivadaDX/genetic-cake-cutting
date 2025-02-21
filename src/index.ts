@@ -15,10 +15,7 @@ const playerValuations = [
 const problemInstance = new ProblemInstance(playerValuations);
 
 // Define genetic algorithm configuration
-const algorithmConfig: AlgorithmConfig = {
-  populationSize: 100,
-  mutationRate: 0.1,
-};
+const algorithmConfig = new AlgorithmConfig(100, 0.1);
 
 // Create genetic algorithm instance
 const geneticAlgorithm = new CakeCuttingGeneticAlgorithm(problemInstance, algorithmConfig);
