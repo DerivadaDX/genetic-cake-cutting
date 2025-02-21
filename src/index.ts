@@ -31,7 +31,7 @@ allocation.pieces.forEach((piece, index) => {
 });
 
 // Calculate and display how each player values each piece
-const playerEvaluations = playerValuations.map(player =>
+const playerEvaluations: number[][] = playerValuations.map(player =>
   allocation.pieces.map(piece => player.getValuationForPiece(piece)),
 );
 
@@ -40,7 +40,7 @@ console.log('\nHow each player values each piece:');
 playerEvaluations.forEach((playerEvals, playerIndex) => {
   console.log(`- Player ${playerIndex + 1}:`);
   playerEvals.forEach((value, pieceIndex) => {
-    const isAssigned = allocation.assignments[playerIndex] === pieceIndex;
+    const isAssigned: boolean = allocation.assignments[playerIndex] === pieceIndex;
     const message = `  - Piece ${pieceIndex + 1}: ${(value * 100).toFixed(1)}% of total value${isAssigned ? ' (ASSIGNED)' : ''}`;
     console.log(message);
   });

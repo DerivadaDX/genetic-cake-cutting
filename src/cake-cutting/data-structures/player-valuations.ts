@@ -6,13 +6,13 @@ export class PlayerValuations {
 
   constructor(valuations: Atom[]) {
     // Validate that values sum to 1 (with small epsilon for floating point arithmetic)
-    const sum = valuations.reduce((acc, atom) => acc + atom.value, 0);
+    const sum: number = valuations.reduce((acc, atom) => acc + atom.value, 0);
     const epsilon = 1e-10;
     if (Math.abs(sum - 1) > epsilon) {
       throw new Error('Valuations must sum exactly to 1');
     }
 
-    const positions = valuations.map(atom => atom.position);
+    const positions: number[] = valuations.map(atom => atom.position);
     if (new Set(positions).size !== positions.length) {
       throw new Error('Atom positions must be unique');
     }
@@ -29,7 +29,7 @@ export class PlayerValuations {
   }
 
   public getValuationAt(position: number): number {
-    const atom = this._valuations.find(a => a.position === position);
+    const atom: Atom | undefined = this._valuations.find(a => a.position === position);
     if (!atom) {
       throw new Error('No valuation found at position');
     }
@@ -37,8 +37,10 @@ export class PlayerValuations {
   }
 
   public getValuationForPiece(piece: Piece): number {
-    const atomsInPiece = this._valuations.filter(atom => atom.position >= piece.start && atom.position <= piece.end);
-    const valuationForPiece = atomsInPiece.reduce((sum, atom) => sum + atom.value, 0);
+    const atomsInPiece: Atom[] = this._valuations.filter(
+      atom => atom.position >= piece.start && atom.position <= piece.end,
+    );
+    const valuationForPiece: number = atomsInPiece.reduce((sum, atom) => sum + atom.value, 0);
     return valuationForPiece;
   }
 }

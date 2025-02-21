@@ -5,10 +5,10 @@ import { IAllocationSolver } from './allocation-solver-interface';
 
 export class AllocationSolver implements IAllocationSolver {
   public solve(individual: Individual, problem: ProblemInstance): Allocation {
-    const pieces = this.getPiecesFromCutPositions(individual.chromosome, problem.numberOfAtoms);
+    const pieces: Piece[] = this.getPiecesFromCutPositions(individual.chromosome, problem.numberOfAtoms);
 
     // Get player valuation for each piece
-    const playerEvaluations = problem.playerValuations.map(player =>
+    const playerEvaluations: number[][] = problem.playerValuations.map(player =>
       pieces.map(piece => player.getValuationForPiece(piece)),
     );
 

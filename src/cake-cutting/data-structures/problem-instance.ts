@@ -29,8 +29,10 @@ export class ProblemInstance {
   private calculateNumberOfAtoms(): number {
     if (this._playerValuations.length === 0) return 0;
 
-    const atomPositions = this._playerValuations.flatMap(player => player.valuations.map(atom => atom.position));
-    const numberOfAtoms = Math.max(...atomPositions);
+    const atomPositions: number[] = this._playerValuations.flatMap(player =>
+      player.valuations.map(atom => atom.position),
+    );
+    const numberOfAtoms: number = Math.max(...atomPositions);
     return numberOfAtoms;
   }
 }

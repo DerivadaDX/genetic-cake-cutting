@@ -9,7 +9,7 @@ export class RandomGenerator implements IRandomGenerator {
   }
 
   public next(): number {
-    const random = this.rng();
+    const random: number = this.rng();
     return random;
   }
 }

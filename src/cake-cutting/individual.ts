@@ -23,11 +23,11 @@ export class Individual {
   }
 
   public crossover(other: Individual, numberOfAtoms: number, random: IRandomGenerator): Individual {
-    const crossoverPoint = Math.floor(random.next() * this._chromosome.numberOfCuts);
-    const firstParentData = this.chromosome.slice(0, crossoverPoint);
-    const secondParentData = other.chromosome.slice(crossoverPoint);
+    const crossoverPoint: number = Math.floor(random.next() * this._chromosome.numberOfCuts);
+    const firstParentData: number[] = this.chromosome.slice(0, crossoverPoint);
+    const secondParentData: number[] = other.chromosome.slice(crossoverPoint);
 
-    const childChromosome = [...firstParentData, ...secondParentData].sort((a, b) => a - b);
+    const childChromosome: number[] = [...firstParentData, ...secondParentData].sort((a, b) => a - b);
     const childCutSet = new CutSet(childChromosome, numberOfAtoms);
 
     const child = new Individual(childCutSet);

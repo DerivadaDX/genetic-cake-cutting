@@ -14,4 +14,4 @@ export class AlgorithmConfig {
     this.populationSize = populationSize;
     this.mutationRate = mutationRate;
   }
-};
+}

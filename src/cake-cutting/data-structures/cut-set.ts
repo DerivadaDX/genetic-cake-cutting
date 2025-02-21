@@ -18,15 +18,15 @@ export class CutSet {
   }
 
   public static createRandom(numberOfCuts: number, numberOfAtoms: number, random: IRandomGenerator): CutSet {
-    const positions = Array.from({ length: numberOfAtoms + 1 }, (_, i) => i);
+    const positions: number[] = Array.from({ length: numberOfAtoms + 1 }, (_, i) => i);
 
     for (let i = 0; i < numberOfCuts; i++) {
-      const randomIndex = i + Math.floor(random.next() * (positions.length - i));
+      const randomIndex: number = i + Math.floor(random.next() * (positions.length - i));
       [positions[i], positions[randomIndex]] = [positions[randomIndex], positions[i]];
     }
 
-    const selectedCuts = positions.slice(0, numberOfCuts);
-    const sortedCuts = selectedCuts.sort((a, b) => a - b);
+    const selectedCuts: number[] = positions.slice(0, numberOfCuts);
+    const sortedCuts: number[] = selectedCuts.sort((a, b) => a - b);
 
     const cutSet = new CutSet(sortedCuts, numberOfAtoms);
     return cutSet;
