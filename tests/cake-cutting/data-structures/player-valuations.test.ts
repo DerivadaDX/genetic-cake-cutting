@@ -1,6 +1,6 @@
-import { PlayerValuations } from '../../../src/cake-cutting/data-structures/player-valuations';
-import { Piece } from '../../../src/cake-cutting/data-structures/piece';
 import { Atom } from '../../../src/cake-cutting/data-structures/atom';
+import { Piece } from '../../../src/cake-cutting/data-structures/piece';
+import { PlayerValuations } from '../../../src/cake-cutting/data-structures/player-valuations';
 
 describe('PlayerValuations', () => {
   describe('constructor', () => {

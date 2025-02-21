@@ -1,6 +1,6 @@
-import { ProblemInstance } from '../../../src/cake-cutting/data-structures/problem-instance';
-import { PlayerValuations } from '../../../src/cake-cutting/data-structures/player-valuations';
 import { Atom } from '../../../src/cake-cutting/data-structures/atom';
+import { PlayerValuations } from '../../../src/cake-cutting/data-structures/player-valuations';
+import { ProblemInstance } from '../../../src/cake-cutting/data-structures/problem-instance';
 
 describe('ProblemInstance', () => {
   describe('constructor', () => {

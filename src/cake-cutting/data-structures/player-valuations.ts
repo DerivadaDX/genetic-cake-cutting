@@ -1,5 +1,5 @@
-import { Piece } from './piece';
 import { Atom } from './atom';
+import { Piece } from './piece';
 
 export class PlayerValuations {
   private readonly _valuations: Atom[];
