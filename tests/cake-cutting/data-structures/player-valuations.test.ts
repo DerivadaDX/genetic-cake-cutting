@@ -56,7 +56,7 @@ describe('PlayerValuations', () => {
 
     it('should include atoms at both start and end positions', () => {
       const piece = new Piece(3, 5);
-      expect(valuations.getValuationForPiece(piece)).toBe(0.8); // Now includes both atoms at 3 and 5
+      expect(valuations.getValuationForPiece(piece)).toBe(0.8);
     });
   });
 });

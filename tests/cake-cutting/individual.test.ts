@@ -17,7 +17,7 @@ describe('Individual', () => {
     test('chromosome getter should return defensive copy', () => {
       const chromosome = new CutSet([2, 4], numberOfAtoms);
       const individual = new Individual(chromosome);
-      const cuts = individual.chromosome;
+      const cuts: number[] = individual.chromosome;
 
       cuts[0] = 3;
       expect(individual.chromosome).toEqual([2, 4]);
@@ -34,9 +34,10 @@ describe('Individual', () => {
     test('should perform crossover at a random point', () => {
       const parent1 = new Individual(new CutSet([1, 3, 5], numberOfAtoms));
       const parent2 = new Individual(new CutSet([2, 4, 6], numberOfAtoms));
-      mockRandom.next.mockReturnValue(0.5); // Will select middle point
+      mockRandom.next.mockReturnValue(0.5);
 
-      const child = parent1.crossover(parent2, numberOfAtoms, mockRandom);
+      const child: Individual = parent1.crossover(parent2, numberOfAtoms, mockRandom);
+
       expect(child.chromosome).toEqual([1, 4, 6]);
       expect(child.fitness).toBe(0);
     });
@@ -44,9 +45,10 @@ describe('Individual', () => {
     test('should keep cuts sorted after crossover', () => {
       const parent1 = new Individual(new CutSet([1, 4, 6], numberOfAtoms));
       const parent2 = new Individual(new CutSet([2, 3, 5], numberOfAtoms));
-      mockRandom.next.mockReturnValue(0.5); // Will select middle point
+      mockRandom.next.mockReturnValue(0.5);
 
-      const child = parent1.crossover(parent2, numberOfAtoms, mockRandom);
+      const child: Individual = parent1.crossover(parent2, numberOfAtoms, mockRandom);
+
       expect(child.chromosome).toEqual([...child.chromosome].sort((a, b) => a - b));
     });
   });
@@ -62,7 +64,7 @@ describe('Individual', () => {
       const individual = new Individual(new CutSet([2, 4], numberOfAtoms));
       mockRandom.next.mockReturnValue(0.6); // Above mutation rate
 
-      const mutated = individual.mutate(0.5, numberOfAtoms, mockRandom);
+      const mutated: Individual = individual.mutate(0.5, numberOfAtoms, mockRandom);
 
       expect(mutated.chromosome).toEqual([2, 4]);
       expect(mutated.fitness).toBe(0);
@@ -74,7 +76,7 @@ describe('Individual', () => {
         .mockReturnValueOnce(0.1) // Below mutation rate
         .mockReturnValueOnce(0.5); // New position calculation
 
-      const mutated = individual.mutate(0.5, numberOfAtoms, mockRandom);
+      const mutated: Individual = individual.mutate(0.5, numberOfAtoms, mockRandom);
 
       expect(mutated.chromosome).not.toEqual([2, 4]);
       expect(mutated.fitness).toBe(0);
@@ -86,7 +88,7 @@ describe('Individual', () => {
         .mockReturnValueOnce(0.1) // Below mutation rate
         .mockReturnValueOnce(0.8); // Will give a high value
 
-      const mutated = individual.mutate(0.5, numberOfAtoms, mockRandom);
+      const mutated: Individual = individual.mutate(0.5, numberOfAtoms, mockRandom);
 
       expect(mutated.chromosome).toEqual(mutated.chromosome.sort((a, b) => a - b));
     });

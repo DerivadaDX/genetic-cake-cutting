@@ -36,7 +36,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     test('should evolve for specified number of generations and return valid allocation', () => {
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const allocation = algorithm.evolve(10);
+      const allocation: Allocation = algorithm.evolve(10);
+
       expect(allocation).toBeInstanceOf(Allocation);
       expect(allocation.pieces.length).toBe(playerValuations.length);
       expect(allocation.assignments.length).toBe(playerValuations.length);
@@ -45,7 +46,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     test('should maintain piece continuity in allocation', () => {
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const allocation = algorithm.evolve(5);
+      const allocation: Allocation = algorithm.evolve(5);
 
       expect(allocation.pieces[0].start).toBe(0);
       expect(allocation.pieces[1].start).toBe(allocation.pieces[0].end);
@@ -57,7 +58,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const problem = new ProblemInstance(playerValuations);
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const allocation = algorithm.evolve(5);
+      const allocation: Allocation = algorithm.evolve(5);
 
       expect(allocation.assignments[0]).toBe(0); // First player gets the only piece
       expect(allocation.pieces.length).toBe(1);
@@ -69,7 +70,7 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const problem = new ProblemInstance(playerValuations);
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const allocation = algorithm.evolve(5);
+      const allocation: Allocation = algorithm.evolve(5);
 
       expect(allocation.pieces.length).toBe(2);
       expect(allocation.assignments.length).toBe(2);

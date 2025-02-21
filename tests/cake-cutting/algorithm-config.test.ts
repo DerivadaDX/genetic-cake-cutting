@@ -6,9 +6,11 @@ describe('AlgorithmConfig', () => {
       expect(() => {
         new AlgorithmConfig(0, 0.1);
       }).toThrow('Invalid population size: 0');
+
       expect(() => {
         new AlgorithmConfig(-1, 0.1);
       }).toThrow('Invalid population size: -1');
+
       expect(() => {
         new AlgorithmConfig(0.1, 0.1);
       }).toThrow('Invalid population size: 0.1');
@@ -18,6 +20,7 @@ describe('AlgorithmConfig', () => {
       expect(() => {
         new AlgorithmConfig(100, -0.1);
       }).toThrow('Invalid mutation rate: -0.1');
+
       expect(() => {
         new AlgorithmConfig(100, 1.1);
       }).toThrow('Invalid mutation rate: 1.1');
