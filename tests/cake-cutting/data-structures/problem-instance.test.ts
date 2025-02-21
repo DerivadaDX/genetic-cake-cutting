@@ -3,6 +3,11 @@ import { PlayerValuations } from '../../../src/cake-cutting/data-structures/play
 import { Atom } from '../../../src/cake-cutting/data-structures/atom';
 
 describe('ProblemInstance', () => {
+  it('should throw error when there are no player valuations', () => {
+    const playerValuations: PlayerValuations[] = [];
+    expect(() => new ProblemInstance(playerValuations)).toThrow('Player valuations array cannot be empty');
+  });
+
   it('should throw error when there are duplicate atom positions across players', () => {
     const playerValuations: PlayerValuations[] = [
       new PlayerValuations([new Atom(1, 0.3), new Atom(2, 0.7)]),
@@ -20,11 +25,5 @@ describe('ProblemInstance', () => {
 
     const problemInstance = new ProblemInstance(playerValuations);
     expect(problemInstance.numberOfAtoms).toBe(4);
-  });
-
-  it('should return 0 if there are no player valuations', () => {
-    const playerValuations: PlayerValuations[] = [];
-    const problemInstance = new ProblemInstance(playerValuations);
-    expect(problemInstance.numberOfAtoms).toBe(0);
   });
 });

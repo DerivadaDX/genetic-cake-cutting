@@ -5,6 +5,10 @@ export class ProblemInstance {
   private readonly _numberOfAtoms: number;
 
   constructor(playerValuations: PlayerValuations[]) {
+    if (!playerValuations || playerValuations.length === 0) {
+      throw new Error('Player valuations array cannot be empty');
+    }
+
     const allPositions = playerValuations.flatMap(player => player.valuations.map(atom => atom.position));
     if (new Set(allPositions).size !== allPositions.length) {
       throw new Error('Atom positions must be unique across all players');
