@@ -11,27 +11,16 @@ export type AlgorithmConfig = {
 };
 
 export class CakeCuttingGeneticAlgorithm {
-  private readonly numberOfAtoms: number;
-  private readonly problem: ProblemInstance;
   private readonly config: AlgorithmConfig;
+  private readonly problem: ProblemInstance;
   private readonly random: IRandomGenerator;
   private readonly fitnessEvaluator: IFitnessEvaluator;
 
   private population: Individual[];
 
   constructor(problem: ProblemInstance, config: AlgorithmConfig) {
-    const numberOfPlayers = problem.playerValuations.length;
-    if (numberOfPlayers < 2) {
-      throw new Error('Must have at least 2 players');
-    }
-
-    this.numberOfAtoms = problem.numberOfAtoms;
-    if (this.numberOfAtoms < 1) {
-      throw new Error('Must have at least 1 atom');
-    }
-
-    this.problem = problem;
     this.config = config;
+    this.problem = problem;
     this.random = RandomGeneratorFactory.create();
     this.fitnessEvaluator = FitnessEvaluatorFactory.create();
 
@@ -50,8 +39,8 @@ export class CakeCuttingGeneticAlgorithm {
         const parent1 = this.selection();
         const parent2 = this.selection();
 
-        const child = parent1.crossover(parent2, this.numberOfAtoms, this.random);
-        const mutatedChild = child.mutate(this.config.mutationRate, this.numberOfAtoms, this.random);
+        const child = parent1.crossover(parent2, this.problem.numberOfAtoms, this.random);
+        const mutatedChild = child.mutate(this.config.mutationRate, this.problem.numberOfAtoms, this.random);
 
         // Calculate and set fitness for the new child
         const fitness = this.fitnessEvaluator.evaluate(this.problem, mutatedChild);
@@ -82,7 +71,7 @@ export class CakeCuttingGeneticAlgorithm {
     const numberOfCuts = this.problem.playerValuations.length - 1;
 
     for (let i = 0; i < this.config.populationSize; i++) {
-      const cutSet = CutSet.createRandom(numberOfCuts, this.numberOfAtoms, this.random);
+      const cutSet = CutSet.createRandom(numberOfCuts, this.problem.numberOfAtoms, this.random);
       const newIndividual = new Individual(cutSet);
       const fitness = this.fitnessEvaluator.evaluate(this.problem, newIndividual);
       newIndividual.setFitness(fitness);
@@ -114,7 +103,7 @@ export class CakeCuttingGeneticAlgorithm {
       start = cut;
     }
     // Add last piece
-    pieces.push(new Piece(start, this.numberOfAtoms));
+    pieces.push(new Piece(start, this.problem.numberOfAtoms));
 
     return pieces;
   }
