@@ -15,10 +15,6 @@ export class CakeCuttingGeneticAlgorithm {
   private population: Individual[];
 
   constructor(problem: ProblemInstance, config: AlgorithmConfig) {
-    if (config.populationSize <= 0 || config.mutationRate < 0 || config.mutationRate > 1) {
-      throw new Error('Invalid algorithm configuration values');
-    }
-
     this.config = config;
     this.problem = problem;
     this.random = RandomGeneratorFactory.create();
