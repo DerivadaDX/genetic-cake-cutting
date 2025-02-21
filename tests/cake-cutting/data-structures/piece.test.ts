@@ -1,7 +1,7 @@
 import { Piece } from '../../../src/cake-cutting/data-structures';
 
 describe('Piece', () => {
-  describe('Constructor', () => {
+  describe('constructor', () => {
     test('should create valid piece', () => {
       const piece = new Piece(2, 4);
 

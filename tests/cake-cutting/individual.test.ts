@@ -5,7 +5,7 @@ import { IRandomGenerator } from '../../src/random-generator';
 describe('Individual', () => {
   const numberOfAtoms = 7;
 
-  describe('Constructor Validation', () => {
+  describe('constructor', () => {
     test('should create valid individual', () => {
       const chromosome = new CutSet([2, 4], numberOfAtoms);
       const individual = new Individual(chromosome);
@@ -24,7 +24,7 @@ describe('Individual', () => {
     });
   });
 
-  describe('Crossover', () => {
+  describe('crossover', () => {
     let mockRandom: jest.Mocked<IRandomGenerator>;
 
     beforeEach(() => {
@@ -51,7 +51,7 @@ describe('Individual', () => {
     });
   });
 
-  describe('Mutation', () => {
+  describe('mutate', () => {
     let mockRandom: jest.Mocked<IRandomGenerator>;
 
     beforeEach(() => {
@@ -92,9 +92,11 @@ describe('Individual', () => {
     });
   });
 
-  test('setFitness should update fitness value', () => {
-    const individual = new Individual(new CutSet([2, 4], numberOfAtoms));
-    individual.setFitness(-2);
-    expect(individual.fitness).toBe(-2);
+  describe('setFitness', () => {
+    test('should update fitness value', () => {
+      const individual = new Individual(new CutSet([2, 4], numberOfAtoms));
+      individual.setFitness(-2);
+      expect(individual.fitness).toBe(-2);
+    });
   });
 });

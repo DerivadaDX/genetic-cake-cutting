@@ -4,7 +4,7 @@ import { RandomGeneratorFactory } from '../../../src/random-generator-factory';
 describe('CutSet', () => {
   const numberOfAtoms = 7;
 
-  describe('Constructor Validation', () => {
+  describe('constructor', () => {
     test('should create valid cut set', () => {
       const cuts = [2, 4];
       const cutSet = new CutSet(cuts, numberOfAtoms);
@@ -48,7 +48,7 @@ describe('CutSet', () => {
     });
   });
 
-  describe('Static Creation', () => {
+  describe('createRandom', () => {
     test('should create random cut set with correct number of cuts', () => {
       const numberOfCuts = 3;
       const random = RandomGeneratorFactory.create();

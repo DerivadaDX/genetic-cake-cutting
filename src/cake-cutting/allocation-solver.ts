@@ -11,7 +11,8 @@ export class AllocationSolver implements IAllocationSolver {
 
     // Get player valuation for each piece
     const playerEvaluations = problem.playerValuations.map(player =>
-      pieces.map(piece => player.getValuationForPiece(piece)));
+      pieces.map(piece => player.getValuationForPiece(piece)),
+    );
 
     // Simple sequential assignment: player i gets piece i
     const assignments = new Array(pieces.length).fill(0).map((_, index) => index);
