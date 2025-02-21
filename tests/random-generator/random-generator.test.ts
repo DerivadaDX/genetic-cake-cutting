@@ -1,4 +1,4 @@
-import { RandomGenerator } from '../src/random-generator';
+import { RandomGenerator } from '../../src/random-generator';
 
 describe('RandomGenerator', () => {
   test('generates same number for same seed', () => {

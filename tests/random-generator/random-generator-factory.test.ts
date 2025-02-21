@@ -1,5 +1,4 @@
-import { RandomGenerator } from '../src/random-generator';
-import { RandomGeneratorFactory } from '../src/random-generator-factory';
+import { RandomGenerator, RandomGeneratorFactory } from '../../src/random-generator';
 
 describe('RandomGeneratorFactory', () => {
   afterEach(() => {

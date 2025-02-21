@@ -1,5 +1,5 @@
 import { CutSet } from '../../../src/cake-cutting/data-structures';
-import { RandomGeneratorFactory } from '../../../src/random-generator-factory';
+import { RandomGeneratorFactory } from '../../../src/random-generator';
 
 describe('CutSet', () => {
   const numberOfAtoms = 7;

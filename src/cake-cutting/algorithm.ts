@@ -1,5 +1,4 @@
-import { IRandomGenerator } from '../random-generator';
-import { RandomGeneratorFactory } from '../random-generator-factory';
+import { IRandomGenerator, RandomGeneratorFactory } from '../random-generator';
 import { Allocation, AllocationSolverFactory, IAllocationSolver } from './allocation';
 import { CutSet, ProblemInstance } from './data-structures';
 import { FitnessEvaluatorFactory, IFitnessEvaluator } from './fitness-evaluator';

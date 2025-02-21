@@ -1,4 +1,5 @@
-import { IRandomGenerator, RandomGenerator } from './random-generator';
+import { RandomGenerator } from './random-generator';
+import { IRandomGenerator } from './random-generator-interface';
 
 export class RandomGeneratorFactory {
   private static _generator: IRandomGenerator;

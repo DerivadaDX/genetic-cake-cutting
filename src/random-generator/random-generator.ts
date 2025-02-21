@@ -1,8 +1,5 @@
 import seedrandom from 'seedrandom';
-
-export interface IRandomGenerator {
-  next(): number;
-}
+import { IRandomGenerator } from './random-generator-interface';
 
 export class RandomGenerator implements IRandomGenerator {
   private rng: seedrandom.PRNG;
