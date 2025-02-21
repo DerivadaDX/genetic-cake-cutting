@@ -1,7 +1,6 @@
 import { FitnessEvaluator } from './fitness-evaluator';
 import { IFitnessEvaluator } from './fitness-evaluator-interface';
 
-
 export class FitnessEvaluatorFactory {
   private static _evaluator: IFitnessEvaluator;
 
