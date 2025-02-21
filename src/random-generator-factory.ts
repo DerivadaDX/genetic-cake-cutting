@@ -8,7 +8,7 @@ export class RandomGeneratorFactory {
     return generator;
   }
 
-  // Solo disponible para testing
+  // Only available for testing
   public static setGenerator(generator: IRandomGenerator): void {
     if (process.env.NODE_ENV === 'test') {
       this._generator = generator;

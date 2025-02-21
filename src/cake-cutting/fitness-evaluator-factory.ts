@@ -8,7 +8,7 @@ export class FitnessEvaluatorFactory {
     return evaluator;
   }
 
-  // Solo disponible para testing
+  // Only available for testing
   public static setEvaluator(evaluator: IFitnessEvaluator): void {
     if (process.env.NODE_ENV === 'test') {
       this._evaluator = evaluator;
