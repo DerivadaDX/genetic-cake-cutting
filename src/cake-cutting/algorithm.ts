@@ -93,19 +93,4 @@ export class CakeCuttingGeneticAlgorithm {
 
     return best;
   }
-
-  private getPiecesValues(chromosome: number[]): Piece[] {
-    const pieces: Piece[] = [];
-
-    // Create pieces from cuts
-    let start = 0;
-    for (const cut of chromosome) {
-      pieces.push(new Piece(start, cut));
-      start = cut;
-    }
-    // Add last piece
-    pieces.push(new Piece(start, this.problem.numberOfAtoms));
-
-    return pieces;
-  }
 }
