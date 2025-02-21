@@ -4,10 +4,7 @@ import { Allocation } from '../../src/cake-cutting/allocation';
 import { Atom, PlayerValuations, ProblemInstance } from '../../src/cake-cutting/data-structures';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
-  const algorithmConfig: AlgorithmConfig = {
-    populationSize: 100,
-    mutationRate: 0.1,
-  };
+  const algorithmConfig = new AlgorithmConfig(100, 0.1);
 
   describe('constructor', () => {
     test('should create instance with exactly 1 player', () => {
