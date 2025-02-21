@@ -1,4 +1,5 @@
-import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from './cake-cutting/algorithm';
+import { CakeCuttingGeneticAlgorithm } from './cake-cutting/algorithm';
+import { AlgorithmConfig } from './cake-cutting/algorithm-config';
 import { Allocation } from './cake-cutting/allocation';
 import { Atom, PlayerValuations, ProblemInstance } from './cake-cutting/data-structures';
 

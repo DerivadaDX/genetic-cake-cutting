@@ -1,13 +1,9 @@
 import { IRandomGenerator, RandomGeneratorFactory } from '../random-generator';
+import { AlgorithmConfig } from './algorithm-config';
 import { Allocation, AllocationSolverFactory, IAllocationSolver } from './allocation';
 import { CutSet, ProblemInstance } from './data-structures';
 import { FitnessEvaluatorFactory, IFitnessEvaluator } from './fitness-evaluator';
 import { Individual } from './individual';
-
-export type AlgorithmConfig = {
-  populationSize: number;
-  mutationRate: number;
-};
 
 export class CakeCuttingGeneticAlgorithm {
   private readonly config: AlgorithmConfig;
