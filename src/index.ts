@@ -1,16 +1,16 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from './cake-cutting/algorithm';
-import { PlayerValuations } from './cake-cutting/player-valuations';
-import { ProblemInstance } from './cake-cutting/problem-instance';
+import { Atom, PlayerValuations, ProblemInstance } from './cake-cutting/data-structures';
 
 // Create players with their valuations
 const playerValuations = [
-  new PlayerValuations([0.2, 0.0, 0.0, 0.3, 0.5, 0.0, 0.0]),
-  new PlayerValuations([0.0, 0.4, 0.3, 0.0, 0.0, 0.3, 0.0]),
-  new PlayerValuations([0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.6]),
+  new PlayerValuations([new Atom(1, 0.3), new Atom(6, 0.7)]),
+  new PlayerValuations([new Atom(2, 0.1), new Atom(3, 0.9)]),
+  new PlayerValuations([new Atom(7, 0.1), new Atom(4, 0.3), new Atom(8, 0.6)]),
+  new PlayerValuations([new Atom(5, 1)]),
 ];
 
 // Define the problem
-const problemInstance: ProblemInstance = { playerValuations };
+const problemInstance = new ProblemInstance(playerValuations);
 
 // Define genetic algorithm configuration
 const algorithmConfig: AlgorithmConfig = {
