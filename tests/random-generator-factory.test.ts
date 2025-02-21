@@ -26,6 +26,7 @@ describe('RandomGeneratorFactory', () => {
 
     const generator = RandomGeneratorFactory.create();
     expect(generator).not.toBe(mockGenerator);
+    process.env.NODE_ENV = 'test';
   });
 
   test('does not allow generator injection outside test mode (production)', () => {
@@ -35,5 +36,6 @@ describe('RandomGeneratorFactory', () => {
 
     const generator = RandomGeneratorFactory.create();
     expect(generator).not.toBe(mockGenerator);
+    process.env.NODE_ENV = 'test';
   });
 });

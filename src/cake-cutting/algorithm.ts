@@ -1,11 +1,11 @@
 import { IRandomGenerator } from '../random-generator';
 import { RandomGeneratorFactory } from '../random-generator-factory';
+import { IAllocationSolver } from './allocation-solver';
+import { AllocationSolverFactory } from './allocation-solver-factory';
 import { Allocation, CutSet, Piece, ProblemInstance } from './data-structures';
 import { IFitnessEvaluator } from './fitness-evaluator';
 import { FitnessEvaluatorFactory } from './fitness-evaluator-factory';
 import { Individual } from './individual';
-import { AllocationServiceFactory } from './allocation-service-factory';
-import { IAllocationService } from './allocation-service';
 
 export type AlgorithmConfig = {
   populationSize: number;
@@ -17,7 +17,7 @@ export class CakeCuttingGeneticAlgorithm {
   private readonly problem: ProblemInstance;
   private readonly random: IRandomGenerator;
   private readonly fitnessEvaluator: IFitnessEvaluator;
-  private readonly allocationService: IAllocationService;
+  private readonly allocationSolver: IAllocationSolver;
 
   private population: Individual[];
 
@@ -30,7 +30,7 @@ export class CakeCuttingGeneticAlgorithm {
     this.problem = problem;
     this.random = RandomGeneratorFactory.create();
     this.fitnessEvaluator = FitnessEvaluatorFactory.create();
-    this.allocationService = AllocationServiceFactory.create();
+    this.allocationSolver = AllocationSolverFactory.create();
 
     this.population = [];
     this.initializePopulation();
@@ -65,7 +65,7 @@ export class CakeCuttingGeneticAlgorithm {
   }
 
   public getAllocation(individual: Individual): Allocation {
-    return this.allocationService.getAllocation(individual, this.problem);
+    return this.allocationSolver.solve(individual, this.problem);
   }
 
   private initializePopulation(): void {

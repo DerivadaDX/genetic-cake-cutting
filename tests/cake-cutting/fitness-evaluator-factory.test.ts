@@ -32,6 +32,7 @@ describe('FitnessEvaluatorFactory', () => {
 
     const evaluator = FitnessEvaluatorFactory.create();
     expect(evaluator).not.toBe(mockEvaluator);
+    process.env.NODE_ENV = 'test';
   });
 
   test('does not allow evaluator injection outside test mode (production)', () => {
