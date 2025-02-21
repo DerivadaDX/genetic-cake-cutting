@@ -36,7 +36,7 @@ export class CakeCuttingGeneticAlgorithm {
     this.initializePopulation();
   }
 
-  public evolve(generations: number): Individual {
+  public evolve(generations: number): Allocation {
     for (let gen = 0; gen < generations; gen++) {
       const newPopulation: Individual[] = [];
 
@@ -50,7 +50,6 @@ export class CakeCuttingGeneticAlgorithm {
         const child = parent1.crossover(parent2, this.problem.numberOfAtoms, this.random);
         const mutatedChild = child.mutate(this.config.mutationRate, this.problem.numberOfAtoms, this.random);
 
-        // Calculate and set fitness for the new child
         const fitness = this.fitnessEvaluator.evaluate(this.problem, mutatedChild);
         mutatedChild.setFitness(fitness);
 
@@ -61,11 +60,8 @@ export class CakeCuttingGeneticAlgorithm {
     }
 
     const bestIndividual = [...this.population].sort((a, b) => b.fitness - a.fitness)[0];
-    return bestIndividual;
-  }
-
-  public getAllocation(individual: Individual): Allocation {
-    return this.allocationSolver.solve(individual, this.problem);
+    const allocation = this.allocationSolver.solve(bestIndividual, this.problem);
+    return allocation;
   }
 
   private initializePopulation(): void {

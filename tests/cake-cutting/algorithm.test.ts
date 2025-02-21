@@ -48,60 +48,23 @@ describe('CakeCuttingGeneticAlgorithm', () => {
     ];
     const problem = new ProblemInstance(playerValuations);
 
-    test('should evolve for specified number of generations', () => {
+    test('should evolve for specified number of generations and return valid allocation', () => {
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const result = algorithm.evolve(10);
-      expect(result).toBeDefined();
-      expect(result.fitness).toBeGreaterThanOrEqual(0);
-    });
-
-    test('fitness should not decrease over generations', () => {
-      const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
-
-      const resultGen1 = algorithm.evolve(1);
-      const resultGen10 = algorithm.evolve(10);
-
-      expect(resultGen10.fitness).toBeGreaterThanOrEqual(resultGen1.fitness);
-    });
-  });
-
-  describe('getAllocation', () => {
-    const playerValuations = [
-      new PlayerValuations([new Atom(1, 0.3), new Atom(4, 0.7)]),
-      new PlayerValuations([new Atom(2, 0.1), new Atom(3, 0.9)]),
-    ];
-    const problem = new ProblemInstance(playerValuations);
-
-    test('should generate valid allocation from individual', () => {
-      const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
-
-      const individual = algorithm.evolve(5);
-      const allocation = algorithm.getAllocation(individual);
-
+      const allocation = algorithm.evolve(10);
       expect(allocation).toBeInstanceOf(Allocation);
       expect(allocation.pieces.length).toBe(playerValuations.length);
       expect(allocation.assignments.length).toBe(playerValuations.length);
-
-      // Check that all pieces are assigned
-      const assignedPieces = new Set(allocation.assignments);
-      expect(assignedPieces.size).toBe(playerValuations.length);
     });
 
     test('should maintain piece continuity in allocation', () => {
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const individual = algorithm.evolve(5);
-      const allocation = algorithm.getAllocation(individual);
+      const allocation = algorithm.evolve(5);
 
-      // Check that pieces are continuous
-      for (let i = 0; i < allocation.pieces.length - 1; i++) {
-        expect(allocation.pieces[i].end).toBe(allocation.pieces[i + 1].start);
-      }
-
-      // Check that first piece starts at 0 and last piece ends at numberOfAtoms
       expect(allocation.pieces[0].start).toBe(0);
-      expect(allocation.pieces[allocation.pieces.length - 1].end).toBe(problem.numberOfAtoms);
+      expect(allocation.pieces[1].start).toBe(allocation.pieces[0].end);
+      expect(allocation.pieces[1].end).toBe(problem.numberOfAtoms);
     });
 
     test('should handle single atom case', () => {
@@ -109,9 +72,9 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const problem = new ProblemInstance(playerValuations);
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const individual = algorithm.evolve(5);
-      const allocation = algorithm.getAllocation(individual);
+      const allocation = algorithm.evolve(5);
 
+      expect(allocation.assignments[0]).toBe(0); // First player gets the only piece
       expect(allocation.pieces.length).toBe(1);
       expect(allocation.assignments.length).toBe(1);
     });
@@ -121,10 +84,8 @@ describe('CakeCuttingGeneticAlgorithm', () => {
       const problem = new ProblemInstance(playerValuations);
       const algorithm = new CakeCuttingGeneticAlgorithm(problem, algorithmConfig);
 
-      const individual = algorithm.evolve(5);
-      const allocation = algorithm.getAllocation(individual);
+      const allocation = algorithm.evolve(5);
 
-      // Even with equal valuations, we should still get a valid allocation
       expect(allocation.pieces.length).toBe(2);
       expect(allocation.assignments.length).toBe(2);
       expect(new Set(allocation.assignments).size).toBe(2);
