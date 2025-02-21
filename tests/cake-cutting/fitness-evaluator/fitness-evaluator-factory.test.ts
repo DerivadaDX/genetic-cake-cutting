@@ -1,5 +1,4 @@
-import { FitnessEvaluatorFactory } from '../../src/cake-cutting/fitness-evaluator-factory';
-import { FitnessEvaluator, IFitnessEvaluator } from '../../src/cake-cutting/fitness-evaluator';
+import { FitnessEvaluator, FitnessEvaluatorFactory, IFitnessEvaluator } from '../../../src/cake-cutting/fitness-evaluator';
 
 describe('FitnessEvaluatorFactory', () => {
   let mockEvaluator: IFitnessEvaluator;

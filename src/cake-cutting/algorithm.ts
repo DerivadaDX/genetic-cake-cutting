@@ -2,8 +2,7 @@ import { IRandomGenerator } from '../random-generator';
 import { RandomGeneratorFactory } from '../random-generator-factory';
 import { Allocation, AllocationSolverFactory, IAllocationSolver } from './allocation';
 import { CutSet, ProblemInstance } from './data-structures';
-import { IFitnessEvaluator } from './fitness-evaluator';
-import { FitnessEvaluatorFactory } from './fitness-evaluator-factory';
+import { FitnessEvaluatorFactory, IFitnessEvaluator } from './fitness-evaluator';
 import { Individual } from './individual';
 
 export type AlgorithmConfig = {
