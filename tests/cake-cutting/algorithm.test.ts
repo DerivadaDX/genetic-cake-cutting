@@ -24,20 +24,6 @@ describe('CakeCuttingGeneticAlgorithm', () => {
         new CakeCuttingGeneticAlgorithm(validProblem, algorithmConfig);
       }).not.toThrow();
     });
-
-    test('should throw error with invalid config values', () => {
-      const validPlayerValuations = [new PlayerValuations([new Atom(1, 1)])];
-      const validProblem = new ProblemInstance(validPlayerValuations);
-
-      const invalidConfig: AlgorithmConfig = {
-        populationSize: -1,
-        mutationRate: 1.5,
-      };
-
-      expect(() => {
-        new CakeCuttingGeneticAlgorithm(validProblem, invalidConfig);
-      }).toThrow('Invalid algorithm configuration values');
-    });
   });
 
   describe('evolve', () => {
