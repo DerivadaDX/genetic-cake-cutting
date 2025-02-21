@@ -19,6 +19,10 @@ export class CakeCuttingGeneticAlgorithm {
   private population: Individual[];
 
   constructor(problem: ProblemInstance, config: AlgorithmConfig) {
+    if (config.populationSize <= 0 || config.mutationRate < 0 || config.mutationRate > 1) {
+      throw new Error('Invalid algorithm configuration values');
+    }
+
     this.config = config;
     this.problem = problem;
     this.random = RandomGeneratorFactory.create();
@@ -58,10 +62,13 @@ export class CakeCuttingGeneticAlgorithm {
 
   public getAllocation(individual: Individual): Allocation {
     const pieces = this.getPiecesValues(individual.chromosome);
-    const playerEvaluations = this.problem.playerValuations.map((_, playerIndex) =>
-      pieces.map(piece => this.evaluatePieceForPlayer(piece, playerIndex)),
-    );
-    const assignments = this.assignPiecesToPlayers(playerEvaluations);
+
+    // Get player valuation for each piece
+    const playerEvaluations = this.problem.playerValuations.map(player =>
+      pieces.map(piece => player.getValuationForPiece(piece)));
+
+    // Simple sequential assignment: player i gets piece i
+    const assignments = new Array(pieces.length).fill(0).map((_, index) => index);
 
     const solution = new Allocation(pieces, assignments, playerEvaluations);
     return solution;
@@ -106,43 +113,5 @@ export class CakeCuttingGeneticAlgorithm {
     pieces.push(new Piece(start, this.problem.numberOfAtoms));
 
     return pieces;
-  }
-
-  private evaluatePieceForPlayer(piece: Piece, playerIndex: number): number {
-    let value = 0;
-    for (let atomIndex = piece.start; atomIndex < piece.end; atomIndex++) {
-      value += this.problem.playerValuations[playerIndex].getValuationAt(atomIndex);
-    }
-    return value;
-  }
-
-  private assignPiecesToPlayers(playerEvaluations: number[][]): number[] {
-    const numberOfPlayers = this.problem.playerValuations.length;
-    // Initialize assignments with -1 (unassigned)
-    const assignments = new Array(numberOfPlayers).fill(-1);
-    const assignedPieces = new Set<number>();
-
-    // For each player
-    for (let player = 0; player < numberOfPlayers; player++) {
-      let bestPiece = -1;
-      let bestValue = -1;
-
-      // Find the best unassigned piece for this player
-      for (let piece = 0; piece < numberOfPlayers; piece++) {
-        if (!assignedPieces.has(piece)) {
-          const value = playerEvaluations[player][piece];
-          if (value > bestValue) {
-            bestValue = value;
-            bestPiece = piece;
-          }
-        }
-      }
-
-      // Assign the best piece to this player
-      assignments[player] = bestPiece;
-      assignedPieces.add(bestPiece);
-    }
-
-    return assignments;
   }
 }
