@@ -1,5 +1,6 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from '../../src/cake-cutting/algorithm';
-import { Atom, PlayerValuations, ProblemInstance, Allocation } from '../../src/cake-cutting/data-structures';
+import { Allocation } from '../../src/cake-cutting/allocation';
+import { Atom, PlayerValuations, ProblemInstance } from '../../src/cake-cutting/data-structures';
 
 describe('CakeCuttingGeneticAlgorithm', () => {
   const algorithmConfig: AlgorithmConfig = {

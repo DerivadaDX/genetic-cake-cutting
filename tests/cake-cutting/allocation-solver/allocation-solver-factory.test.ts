@@ -1,5 +1,4 @@
-import { AllocationSolver, IAllocationSolver } from '../../src/cake-cutting/allocation-solver';
-import { AllocationSolverFactory } from '../../src/cake-cutting/allocation-solver-factory';
+import { AllocationSolver, AllocationSolverFactory, IAllocationSolver } from '../../../src/cake-cutting/allocation';
 
 describe('AllocationSolverFactory', () => {
   let mockAllocationSolver: IAllocationSolver;

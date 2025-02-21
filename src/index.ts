@@ -1,4 +1,5 @@
 import { AlgorithmConfig, CakeCuttingGeneticAlgorithm } from './cake-cutting/algorithm';
+import { Allocation } from './cake-cutting/allocation';
 import { Atom, PlayerValuations, ProblemInstance } from './cake-cutting/data-structures';
 
 // Create players with their valuations
@@ -23,7 +24,7 @@ const geneticAlgorithm = new CakeCuttingGeneticAlgorithm(problemInstance, algori
 
 // Run evolution
 const generations = 1000;
-const allocation = geneticAlgorithm.evolve(generations);
+const allocation: Allocation = geneticAlgorithm.evolve(generations);
 
 console.log('\nPieces created by the cuts:');
 allocation.pieces.forEach((piece, index) => {
@@ -36,6 +37,7 @@ const playerEvaluations = playerValuations.map(player =>
   allocation.pieces.map(piece => player.getValuationForPiece(piece)),
 );
 
+// TODO - Algo está fallando acá
 console.log('\nHow each player values each piece:');
 playerEvaluations.forEach((playerEvals, playerIndex) => {
   console.log(`- Player ${playerIndex + 1}:`);

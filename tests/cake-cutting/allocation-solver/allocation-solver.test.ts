@@ -1,6 +1,6 @@
-import { AllocationSolver } from '../../src/cake-cutting/allocation-solver';
-import { Allocation, Atom, CutSet, PlayerValuations, ProblemInstance } from '../../src/cake-cutting/data-structures';
-import { Individual } from '../../src/cake-cutting/individual';
+import { Allocation, AllocationSolver } from '../../../src/cake-cutting/allocation';
+import { Atom, CutSet, PlayerValuations, ProblemInstance } from '../../../src/cake-cutting/data-structures';
+import { Individual } from '../../../src/cake-cutting/individual';
 
 describe('AllocationSolver', () => {
   describe('solve', () => {

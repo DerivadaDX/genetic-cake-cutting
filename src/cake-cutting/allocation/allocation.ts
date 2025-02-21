@@ -1,4 +1,4 @@
-import { Piece } from './piece';
+import { Piece } from '../data-structures/piece';
 
 export class Allocation {
   public readonly pieces: Piece[];

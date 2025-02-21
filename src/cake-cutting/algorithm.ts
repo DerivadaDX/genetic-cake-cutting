@@ -1,8 +1,7 @@
 import { IRandomGenerator } from '../random-generator';
 import { RandomGeneratorFactory } from '../random-generator-factory';
-import { IAllocationSolver } from './allocation-solver';
-import { AllocationSolverFactory } from './allocation-solver-factory';
-import { Allocation, CutSet, Piece, ProblemInstance } from './data-structures';
+import { Allocation, AllocationSolverFactory, IAllocationSolver } from './allocation';
+import { CutSet, ProblemInstance } from './data-structures';
 import { IFitnessEvaluator } from './fitness-evaluator';
 import { FitnessEvaluatorFactory } from './fitness-evaluator-factory';
 import { Individual } from './individual';

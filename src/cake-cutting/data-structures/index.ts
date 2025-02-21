@@ -1,4 +1,3 @@
-export { Allocation } from './allocation';
 export { Atom } from './atom';
 export { CutSet } from './cut-set';
 export { Piece } from './piece';
