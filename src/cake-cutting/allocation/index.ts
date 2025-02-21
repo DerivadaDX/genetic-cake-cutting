@@ -1,3 +1,5 @@
 export { Allocation } from './allocation';
-export { AllocationSolver, IAllocationSolver } from './allocation-solver';
+export { AllocationSolver } from './allocation-solver';
 export { AllocationSolverFactory } from './allocation-solver-factory';
+export { IAllocationSolver } from './allocation-solver-interface';
+

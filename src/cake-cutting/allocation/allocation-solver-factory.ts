@@ -1,4 +1,5 @@
-import { IAllocationSolver, AllocationSolver } from './allocation-solver';
+import { AllocationSolver } from './allocation-solver';
+import { IAllocationSolver } from './allocation-solver-interface';
 
 export class AllocationSolverFactory {
   private static _solver: IAllocationSolver;

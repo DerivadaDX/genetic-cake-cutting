@@ -1,10 +1,7 @@
 import { Piece, ProblemInstance } from '../data-structures';
 import { Individual } from '../individual';
 import { Allocation } from './allocation';
-
-export interface IAllocationSolver {
-  solve(individual: Individual, problem: ProblemInstance): Allocation;
-}
+import { IAllocationSolver } from './allocation-solver-interface';
 
 export class AllocationSolver implements IAllocationSolver {
   public solve(individual: Individual, problem: ProblemInstance): Allocation {
