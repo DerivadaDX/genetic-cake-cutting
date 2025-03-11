@@ -54,9 +54,11 @@ describe('PlayerValuations', () => {
       expect(valuations.getValuationForPiece(piece)).toBe(0);
     });
 
-    it('should include atoms at both start and end positions', () => {
+    it('should exclude start and include end position atoms', () => {
       const piece = new Piece(3, 5);
-      expect(valuations.getValuationForPiece(piece)).toBe(0.8);
+      // atom at position 3 (0.5) should be excluded
+      // atom at position 5 (0.3) should be included
+      expect(valuations.getValuationForPiece(piece)).toBe(0.3);
     });
   });
 });

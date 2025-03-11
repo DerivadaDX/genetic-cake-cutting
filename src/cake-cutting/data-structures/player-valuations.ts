@@ -38,7 +38,7 @@ export class PlayerValuations {
 
   public getValuationForPiece(piece: Piece): number {
     const atomsInPiece: Atom[] = this._valuations.filter(
-      atom => atom.position >= piece.start && atom.position <= piece.end,
+      atom => atom.position > piece.start && atom.position <= piece.end,
     );
     const valuationForPiece: number = atomsInPiece.reduce((sum, atom) => sum + atom.value, 0);
     return valuationForPiece;
