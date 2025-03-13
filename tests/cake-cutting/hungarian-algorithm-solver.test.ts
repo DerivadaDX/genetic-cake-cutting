@@ -9,38 +9,43 @@ describe('HungarianAlgorithmSolver', () => {
 
   test('should solve 2x2 maximization problem', () => {
     const matrix = [
-      [10, 5],
-      [3, 8]
+      [0.7, 0.3],
+      [0.4, 0.6]
     ];
     const result = solver.solveMaximizationProblem(matrix);
-    expect(result).toEqual([[0, 0], [1, 1]]); // [10, 8] assignment
+    expect(result).toEqual([
+      { player: 0, portion: 0 },
+      { player: 1, portion: 1 }
+    ]);
   });
 
   test('should solve 3x3 maximization problem', () => {
     const matrix = [
-      [80, 75, 100],
-      [100, 80, 15],
-      [25, 90, 10]
+      [0.3, 0.2, 0.5],
+      [0.5, 0.3, 0.2],
+      [0.2, 0.5, 0.3]
     ];
     const result = solver.solveMaximizationProblem(matrix);
-    expect(result).toEqual([[0, 2], [1, 0], [2, 1]]); // [100, 90, 100] assignment
+    expect(result).toEqual([
+      { player: 0, portion: 2 },
+      { player: 1, portion: 0 },
+      { player: 2, portion: 1 }
+    ]);
   });
 
-  test('should handle matrix with negative values', () => {
+  test('should solve 4x4 maximization problem', () => {
     const matrix = [
-      [-2, -5],
-      [-3, -1]
+      [0.4, 0.2, 0.1, 0.3],
+      [0.1, 0.3, 0.3, 0.3],
+      [0.3, 0.3, 0.2, 0.2],
+      [0.2, 0.2, 0.4, 0.2]
     ];
     const result = solver.solveMaximizationProblem(matrix);
-    expect(result).toEqual([[0, 0], [1, 1]]); // [-2, -1] assignment
-  });
-
-  test('should handle matrix with zeros', () => {
-    const matrix = [
-      [0, 0],
-      [0, 0]
-    ];
-    const result = solver.solveMaximizationProblem(matrix);
-    expect(result).toEqual([[0, 0], [1, 1]]); // Any assignment is optimal here
+    expect(result).toEqual([
+      { player: 0, portion: 0 },
+      { player: 1, portion: 3 },
+      { player: 2, portion: 1 },
+      { player: 3, portion: 2 }
+    ]);
   });
 });

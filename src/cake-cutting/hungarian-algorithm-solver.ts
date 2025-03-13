@@ -1,7 +1,12 @@
 const munkres = require('munkres-js') as any;
 
+type Assignment = {
+  player: number;
+  portion: number;
+};
+
 export class HungarianAlgorithmSolver {
-  solveMaximizationProblem(matrix: number[][]): number[][] {
+  solveMaximizationProblem(matrix: number[][]): Assignment[] {
     // Find the maximum value in the matrix
     const maxValue = Math.max(...matrix.map(row => Math.max(...row)));
 
@@ -11,6 +16,9 @@ export class HungarianAlgorithmSolver {
 
     // Solve the minimization problem
     const result = munkres(minimizationMatrix);
-    return result;
+
+    // Transform the result into Assignment objects
+    const assignments = result.map(([player, portion]: number[]) => ({ player, portion }));
+    return assignments;
   }
 }
