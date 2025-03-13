@@ -12,6 +12,7 @@
   "license": "MIT",
   "description": "A genetic algorithm that attempts to achieve envy-free division of discrete cakes among multiple players.",
   "dependencies": {
+    "munkres-js": "^1.2.2",
     "seedrandom": "^3.0.5"
   },
   "devDependencies": {
