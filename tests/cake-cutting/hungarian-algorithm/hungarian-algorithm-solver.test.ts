@@ -1,4 +1,4 @@
-import { HungarianAlgorithmSolver } from '../../src/cake-cutting/hungarian-algorithm-solver';
+import { HungarianAlgorithmSolver } from '../../../src/cake-cutting/hungarian-algorithm';
 
 describe('HungarianAlgorithmSolver', () => {
   let solver: HungarianAlgorithmSolver;
