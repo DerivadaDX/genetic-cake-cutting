@@ -1,4 +1,7 @@
-import { HungarianAlgorithmSolver, HungarianAlgorithmSolverFactory } from '../../../src/cake-cutting/hungarian-algorithm';
+import {
+  HungarianAlgorithmSolver,
+  HungarianAlgorithmSolverFactory,
+} from '../../../src/cake-cutting/hungarian-algorithm';
 
 describe('HungarianAlgorithmSolverFactory', () => {
   afterEach(() => {
