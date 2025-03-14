@@ -25,12 +25,15 @@ export class FitnessEvaluator implements IFitnessEvaluator {
 
   private getPiecesFromCutPositions(cutPositions: number[], numberOfAtoms: number): Piece[] {
     const pieces: Piece[] = [];
-    let start = 0;
 
+    // Create pieces from cuts
+    let start = 0;
     for (const cut of cutPositions) {
       pieces.push(new Piece(start, cut));
       start = cut;
     }
+
+    // Add last piece
     pieces.push(new Piece(start, numberOfAtoms));
 
     return pieces;
