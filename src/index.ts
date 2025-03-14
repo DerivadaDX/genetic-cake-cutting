@@ -26,7 +26,7 @@ const allocation: Allocation = geneticAlgorithm.evolve(generations);
 
 console.log('\nPieces created by the cuts:');
 allocation.pieces.forEach((piece, index) => {
-  const message = `- Piece ${index + 1}: atoms ${piece.start} to ${piece.end}`;
+  const message = `- Piece ${index + 1}: atoms ${piece.start + 1} to ${piece.end}`;
   console.log(message);
 });
 
@@ -35,7 +35,6 @@ const playerEvaluations: number[][] = playerValuations.map(player =>
   allocation.pieces.map(piece => player.getValuationForPiece(piece)),
 );
 
-// TODO - Algo está fallando acá
 console.log('\nHow each player values each piece:');
 playerEvaluations.forEach((playerEvals, playerIndex) => {
   console.log(`- Player ${playerIndex + 1}:`);
@@ -48,6 +47,6 @@ playerEvaluations.forEach((playerEvals, playerIndex) => {
 
 console.log('\nFinal assignments:');
 allocation.assignments.forEach((pieceIndex, playerIndex) => {
-  const message = `- Player ${playerIndex + 1} gets piece ${pieceIndex + 1} (atoms ${allocation.pieces[pieceIndex].start} to ${allocation.pieces[pieceIndex].end})`;
+  const message = `- Player ${playerIndex + 1} gets piece ${pieceIndex + 1} (atoms ${allocation.pieces[pieceIndex].start + 1} to ${allocation.pieces[pieceIndex].end})`;
   console.log(message);
 });
