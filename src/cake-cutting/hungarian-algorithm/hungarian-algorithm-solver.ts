@@ -1,11 +1,9 @@
+import { Assignment } from './assignment';
+import { IHungarianAlgorithmSolver } from './hungarian-algorithm-solver-interface';
+
 const munkres = require('munkres-js') as any;
 
-type Assignment = {
-  player: number;
-  portion: number;
-};
-
-export class HungarianAlgorithmSolver {
+export class HungarianAlgorithmSolver implements IHungarianAlgorithmSolver {
   solveMaximizationProblem(matrix: number[][]): Assignment[] {
     // Find the maximum value in the matrix
     const maxValue = Math.max(...matrix.map(row => Math.max(...row)));
