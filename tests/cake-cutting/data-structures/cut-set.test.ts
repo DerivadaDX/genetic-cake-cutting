@@ -23,7 +23,7 @@ describe('CutSet', () => {
 
     test('cuts getter should return defensive copy', () => {
       const cutSet = new CutSet([2, 4], numberOfAtoms);
-      const cuts = cutSet.cuts;
+      const cuts: number[] = cutSet.cuts;
 
       cuts[0] = 3;
       expect(cutSet.cuts).toEqual([2, 4]);

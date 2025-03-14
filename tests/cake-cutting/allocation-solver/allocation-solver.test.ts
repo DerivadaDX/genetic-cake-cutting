@@ -13,7 +13,7 @@ describe('AllocationSolver', () => {
       const individual = new Individual(new CutSet([2], problem.numberOfAtoms));
 
       const solver = new AllocationSolver();
-      const allocation = solver.solve(individual, problem);
+      const allocation: Allocation = solver.solve(individual, problem);
 
       expect(allocation).toBeInstanceOf(Allocation);
       expect(allocation.pieces.length).toBe(playerValuations.length);

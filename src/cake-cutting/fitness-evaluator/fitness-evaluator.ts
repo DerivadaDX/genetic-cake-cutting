@@ -16,7 +16,7 @@ export class FitnessEvaluator implements IFitnessEvaluator {
     const assignments: Assignment[] = this.hungarianSolver.solveMaximizationProblem(valuationMatrix);
 
     // Calculate total satisfaction based on optimal assignments
-    const fitness = assignments.reduce(
+    const fitness: number = assignments.reduce(
       (sum, assignment) => sum + valuationMatrix[assignment.player][assignment.portion],
       0,
     );
@@ -40,7 +40,7 @@ export class FitnessEvaluator implements IFitnessEvaluator {
   }
 
   private createValuationMatrix(pieces: Piece[], problem: ProblemInstance): number[][] {
-    const valuationMatrix = problem.playerValuations.map(player =>
+    const valuationMatrix: number[][] = problem.playerValuations.map(player =>
       pieces.map(piece => player.getValuationForPiece(piece)),
     );
     return valuationMatrix;

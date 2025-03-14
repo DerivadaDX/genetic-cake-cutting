@@ -1,4 +1,4 @@
-import { HungarianAlgorithmSolver } from '../../../src/cake-cutting/hungarian-algorithm';
+import { Assignment, HungarianAlgorithmSolver } from '../../../src/cake-cutting/hungarian-algorithm';
 
 describe('HungarianAlgorithmSolver', () => {
   let solver: HungarianAlgorithmSolver;
@@ -13,7 +13,7 @@ describe('HungarianAlgorithmSolver', () => {
         [0.7, 0.3],
         [0.4, 0.6],
       ];
-      const result = solver.solveMaximizationProblem(matrix);
+      const result: Assignment[] = solver.solveMaximizationProblem(matrix);
       expect(result).toEqual([
         { player: 0, portion: 0 },
         { player: 1, portion: 1 },
@@ -26,7 +26,7 @@ describe('HungarianAlgorithmSolver', () => {
         [0.5, 0.3, 0.2],
         [0.2, 0.5, 0.3],
       ];
-      const result = solver.solveMaximizationProblem(matrix);
+      const result: Assignment[] = solver.solveMaximizationProblem(matrix);
       expect(result).toEqual([
         { player: 0, portion: 2 },
         { player: 1, portion: 0 },
@@ -41,7 +41,7 @@ describe('HungarianAlgorithmSolver', () => {
         [0.3, 0.3, 0.2, 0.2],
         [0.2, 0.2, 0.4, 0.2],
       ];
-      const result = solver.solveMaximizationProblem(matrix);
+      const result: Assignment[] = solver.solveMaximizationProblem(matrix);
       expect(result).toEqual([
         { player: 0, portion: 0 },
         { player: 1, portion: 3 },

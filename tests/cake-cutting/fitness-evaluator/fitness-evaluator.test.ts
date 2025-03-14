@@ -30,7 +30,7 @@ describe('FitnessEvaluator', () => {
       ];
       const problem = new ProblemInstance(playerValuations);
 
-      const fitness = fitnessEvaluator.evaluate(problem, individual);
+      const fitness: number = fitnessEvaluator.evaluate(problem, individual);
 
       expect(fitness).toBe(2); // Both players get their preferred half
     });
@@ -44,7 +44,7 @@ describe('FitnessEvaluator', () => {
       ];
       const problem = new ProblemInstance(playerValuations);
 
-      const fitness = fitnessEvaluator.evaluate(problem, individual);
+      const fitness: number = fitnessEvaluator.evaluate(problem, individual);
 
       expect(fitness).toBe(3); // Each player gets their most valued section
     });

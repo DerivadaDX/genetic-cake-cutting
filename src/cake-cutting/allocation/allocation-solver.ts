@@ -43,14 +43,14 @@ export class AllocationSolver implements IAllocationSolver {
   }
 
   private createValuationMatrix(pieces: Piece[], problem: ProblemInstance): number[][] {
-    const valuationMatrix = problem.playerValuations.map(player =>
+    const valuationMatrix: number[][] = problem.playerValuations.map(player =>
       pieces.map(piece => player.getValuationForPiece(piece)),
     );
     return valuationMatrix;
   }
 
   private convertAssignmentsToPlayerArray(assignments: Assignment[]): number[] {
-    const playerArray = new Array(assignments.length).fill(0);
+    const playerArray: number[] = new Array(assignments.length).fill(0);
     assignments.forEach(assignment => {
       playerArray[assignment.player] = assignment.portion;
     });

@@ -35,7 +35,7 @@ export class Individual {
   }
 
   public mutate(mutationRate: number, numberOfAtoms: number, random: IRandomGenerator): Individual {
-    const mutatedChromosome = this.chromosome
+    const mutatedChromosome: number[] = this.chromosome
       .map(gene => {
         if (random.next() < mutationRate) {
           const newPosition = Math.floor(random.next() * (numberOfAtoms + 1));

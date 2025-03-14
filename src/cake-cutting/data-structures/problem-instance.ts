@@ -9,7 +9,7 @@ export class ProblemInstance {
       throw new Error('Player valuations array cannot be empty');
     }
 
-    const allPositions = playerValuations.flatMap(player => player.valuations.map(atom => atom.position));
+    const allPositions: number[] = playerValuations.flatMap(player => player.valuations.map(atom => atom.position));
     if (new Set(allPositions).size !== allPositions.length) {
       throw new Error('Atom positions must be unique across all players');
     }
